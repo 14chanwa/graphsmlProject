@@ -27,6 +27,8 @@ def generate_maze(n, m=None):
         undirected spanning tree for the maze wall graph, that is the set of 
         walls of the maze. The frontier of the maze is represented by node n*m,
         the other nodes are ordered by lines.
+    W: np.array
+        The adjacency matrix used to generate the maze.
     
     """
     
@@ -37,6 +39,7 @@ def generate_maze(n, m=None):
     # The last node is the frontier of the maze
     # Diagonal elements are sum of probabilities (1)
     W = np.eye(n*m+1)
+    W[n*m, n*m] = 0
     
     # Corners of the maze
     # [row, column]
@@ -93,4 +96,4 @@ def generate_maze(n, m=None):
     # Run Propp-Wilson algorithm on W
     Y, P = wilson_algorithm(W)
     
-    return P
+    return P, W

@@ -70,7 +70,6 @@ def wilson_algorithm(W, q=0):
             normalization_weight = transition_probabilities[walk_index] + q
 
             transition_probabilities[walk_index] = q
-            transition_probabilities /= normalization_weight
             
             # If the probability transition is null (case q = 0 and leaf of the
             # graph), finish
@@ -80,6 +79,8 @@ def wilson_algorithm(W, q=0):
                     Nu[j] = 1
                 P.append(walk)
                 break
+            
+            transition_probabilities /= normalization_weight
             
             # Get random walk transition
             next_index = np.random.choice(n, p=transition_probabilities)

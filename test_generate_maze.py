@@ -63,4 +63,4 @@ for ell in P:
 plt.gca().set_aspect('equal', adjustable='box')
 plt.show()
 
-
+#Y, P = wilson_algorithm(W, 0.1)
