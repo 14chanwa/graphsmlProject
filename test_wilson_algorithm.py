@@ -7,7 +7,7 @@ Created on Sat Nov 25 17:38:34 2017
 
 # Tests Propp-Wilson algorithm on a simple matrix.
 
-exec(open("./wilson_algorithm.py").read())
+from wilson_algorithm import wilson_algorithm
 
 # Testing wilson_algorithm
 W = 0.5 * np.ones([3, 3])
