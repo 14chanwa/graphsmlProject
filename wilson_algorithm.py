@@ -6,7 +6,7 @@ Created on Fri Nov 24 23:37:54 2017
 """
 
 import numpy as np
-
+from scipy.sparse import csr_matrix
 
 def wilson_algorithm(W, q=0):
     
@@ -19,8 +19,10 @@ def wilson_algorithm(W, q=0):
     
     Parameters
     ----------
-    W : np.array
+    W : scipy.sparse.csr_matrix
         Adjacency matrix of the graph. Assume W[i, i] = sum of outgoing edges.
+        The csr_matrix format is adapted for this task as we need fast row
+        slicing.
     q : float
         Weight of the sink node (Delta)
     
@@ -63,7 +65,7 @@ def wilson_algorithm(W, q=0):
         
         while True:
             # Get transition weights
-            transition_probabilities = np.copy(W[walk_index, :])
+            transition_probabilities = np.asarray(W.getrow(walk_index).todense()).reshape(-1)
             
             # Get sum of weights and normalize
             # Add the sink probability to position walk_index
@@ -73,7 +75,7 @@ def wilson_algorithm(W, q=0):
             
             # If the probability transition is null (case q = 0 and leaf of the
             # graph), finish
-            if normalization_weight == 0 or sum(transition_probabilities) == 0:
+            if normalization_weight == 0 or np.sum(transition_probabilities) == 0:
                 #print('case 0')
                 for j in walk:
                     Nu[j] = 1

@@ -5,8 +5,9 @@ Created on Sat Nov 25 17:54:54 2017
 @author: 14chanwa
 """
 
-exec(open("./wilson_algorithm.py").read())
-
+import numpy as np
+from scipy import sparse
+from wilson_algorithm import wilson_algorithm
 
 def generate_maze(n, m=None):
     
@@ -27,7 +28,7 @@ def generate_maze(n, m=None):
         undirected spanning tree for the maze wall graph, that is the set of 
         walls of the maze. The frontier of the maze is represented by node n*m,
         the other nodes are ordered by lines.
-    W: np.array
+    W: scipy.sparse.csr_matrix
         The adjacency matrix used to generate the maze.
     
     """
@@ -38,7 +39,9 @@ def generate_maze(n, m=None):
     # Create a graph with n * m + 1 nodes
     # The last node is the frontier of the maze
     # Diagonal elements are sum of probabilities (1)
-    W = np.eye(n*m+1)
+    
+    # Construct W as a dok_matrix
+    W = sparse.eye(n*m+1, format="dok")
     W[n*m, n*m] = 0
     
     # Corners of the maze
@@ -92,6 +95,9 @@ def generate_maze(n, m=None):
             W[i*m+j, i*m+j+1] = 1/4
             W[i*m+j, (i-1)*m+j] = 1/4
             W[i*m+j, (i+1)*m+j] = 1/4
+    
+    # Convert W to a csr_matrix
+    W = W.tocsr()
     
     # Run Propp-Wilson algorithm on W
     Y, P = wilson_algorithm(W)
