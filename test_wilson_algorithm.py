@@ -12,17 +12,26 @@ from scipy.sparse import csr_matrix
 from wilson_algorithm import wilson_algorithm
 
 
-# Testing wilson_algorithm
+# Original algorithm
+# Testing wilson_algorithm on a simple 3x3 matrix. We expect only one path of
+# length 3, and Y = emptyset (no vertex is sampled).
 W = 0.5 * np.ones([3, 3])
 for j in range(0, 3):
     W[j, j] = 1
 
-print(W)
 W = csr_matrix(W)
 print(W)
 
 Y, P = wilson_algorithm(W)
-
-#print(W)
 print(Y)
 print(P)
+
+
+# Modified algorithm
+# If we add a significant weight on the sink, there can be several paths of
+# length < 3 (and thus some vertices are sampled).
+
+Y, P = wilson_algorithm(W, 0.5)
+print(Y)
+print(P)
+

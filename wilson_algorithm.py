@@ -20,11 +20,11 @@ def wilson_algorithm(W, q=0):
     Parameters
     ----------
     W : scipy.sparse.csr_matrix
-        Adjacency matrix of the graph. Assume W[i, i] = sum of outgoing edges.
+        Adjacency matrix of the graph. The diagonal elements do not matter.
         The csr_matrix format is adapted for this task as we need fast row
         slicing.
     q : float
-        Weight of the sink node (Delta)
+        Weight of the sink node (Delta).
     
     Returns
     ----------
@@ -32,9 +32,10 @@ def wilson_algorithm(W, q=0):
         Set of node indices that correspond to the sampled DPP. This is the set
         of the nodes such that the random walk process led to the sink at the
         following step.
-    P : set(List)
-        A set of Lists that depict the paths taken during the random 
-        walk process.
+    P : list(list(int))
+        A list of lists of node indices that depict the paths taken during the 
+        random walk process. The union of the nodes constitute a random
+        spanning tree.
     
     """
     
@@ -69,13 +70,14 @@ def wilson_algorithm(W, q=0):
             
             # Get sum of weights and normalize
             # Add the sink probability to position walk_index
-            normalization_weight = transition_probabilities[walk_index] + q
+            transition_probabilities[walk_index] = 0
+            normalization_weight = np.sum(transition_probabilities) + q
 
             transition_probabilities[walk_index] = q
             
             # If the probability transition is null (case q = 0 and leaf of the
             # graph), finish
-            if normalization_weight == 0 or np.sum(transition_probabilities) == 0:
+            if normalization_weight == 0 or normalization_weight == 0:
                 #print('case 0')
                 for j in walk:
                     Nu[j] = 1
