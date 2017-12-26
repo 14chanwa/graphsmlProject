@@ -13,7 +13,7 @@ import networkx as nx
 
 N = 100
 q = 30
-d = 10
+d = 5
 
 # Generate a random graph
 G = nx.fast_gnp_random_graph(N, 0.6)

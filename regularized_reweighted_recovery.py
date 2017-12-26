@@ -36,10 +36,15 @@ def regularized_reweighted_recovery(L, pi, M, y, gamma, r):
     """
     
     # Direct inversion method
-    tmp = M.transpose().dot(sp.sparse.diags(1/pi)).dot(M) + gamma * (L ** r)
-    tmp2 = sp.sparse.linalg.inv(tmp)
+    Lr = L
+    for i in range(r-1):
+        Lr = Lr.dot(L)
+    Pm1 = sp.sparse.diags(1/pi)
+
+    tmp = ((M.transpose()).dot(Pm1).dot(M)).tocsr() + (gamma * Lr).tocsr()
+    tmp2 = sp.sparse.linalg.inv(tmp.tocsc())
     
-    xrec = tmp2.dot(M.transpose()).dot(sp.sparse.diags(1/np.sqrt(pi))).dot(y)
+    xrec = tmp2.dot(M.transpose()).dot(Pm1).dot(y)
     
     # Gradient descent (TODO)
     
