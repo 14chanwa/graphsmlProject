@@ -5,10 +5,11 @@ Created on Tue Dec 26 15:53:21 2017
 @author: Quentin
 """
 
-import numpy as np
+# import numpy as np
 import scipy as sp
 
 def regularized_reweighted_recovery(L, pi, M, y, gamma, r):
+    
     """
     Recover a k-bandlimited signal from m measurements on a subset of nodes
     sampled from a DPP.
@@ -35,16 +36,19 @@ def regularized_reweighted_recovery(L, pi, M, y, gamma, r):
     
     """
     
-    # Direct inversion method
+    # Direct inversion method using the formula
+    # x_rec = (M' P^-1 M + gamma L^r)^-1 M' P^-1 y 
     Lr = L
     for i in range(r-1):
         Lr = Lr.dot(L)
     Pm1 = sp.sparse.diags(1/pi)
 
-    tmp = ((M.transpose()).dot(Pm1).dot(M)).tocsr() + (gamma * Lr).tocsr()
-    tmp2 = sp.sparse.linalg.inv(tmp.tocsc())
+    tmp = ((M.transpose()).dot(Pm1).dot(M)).tocsc() + (gamma * Lr).tocsc()
+    tmp2 = sp.sparse.linalg.inv(tmp)
     
     xrec = tmp2.dot(M.transpose()).dot(Pm1).dot(y)
+    
+    ## OR
     
     # Gradient descent (TODO)
     

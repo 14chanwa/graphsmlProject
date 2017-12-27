@@ -37,7 +37,8 @@ def estimate_pi(L, q, d, n):
     N = L.shape[0]
     
     # Compute the largest eigenvalue of L
-    lambda_N = sp.sparse.linalg.eigsh(L, k=1, return_eigenvectors=False, which='LM')[0]
+    lambda_N = sp.sparse.linalg.eigsh(L, k=1, return_eigenvectors=False, which='LA')[0]
+    
     
     # Polynomial approximation of sqrt(g_q)
     x = np.arange(0, lambda_N + lambda_N/d, lambda_N/d)

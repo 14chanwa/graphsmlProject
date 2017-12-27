@@ -45,6 +45,7 @@ def generate_graph_from_stochastic_block_model(N, k, epsilon, c):
     # Community indices
     step = N/k
     indices = np.floor(np.arange(N)/step).astype(np.int)
+    # print(indices)
     
     # Build edges
     for i in range(0, N):
