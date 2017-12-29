@@ -10,6 +10,7 @@ from generate_k_bandlimited_signal import generate_k_bandlimited_signal
 from wilson_algorithm import wilson_algorithm
 from estimate_pi import estimate_pi
 from regularized_reweighted_recovery import regularized_reweighted_recovery
+from reweighted_recovery_with_eigendec import reweighted_recovery_with_eigendec
 
 import numpy as np
 import scipy as sp
@@ -37,14 +38,14 @@ epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (k - 1))
 epsilon = 1 * epsilonc       # q2/q1
 
 ### Number of measurements
-m = 5 # should be >= k
+m = 3 # should be >= k
 
 ### Initial q
 q = 1.0             # Will be adapted if the size of the sampled DPP
                     # is not large enough.
 
 # Recovery parameters
-d = 15
+d = 20
 n = int(np.floor(20 * np.log(N)))
 gamma = 1e-5
 r = 4
@@ -86,10 +87,36 @@ y = M.dot(x)
 y += np.random.normal(0, 10e-4, size=y.shape)
 
 # Recover the signal
-pi = estimate_pi(L, q, d, n)
+
+# Estimate pi using fast graph filtering
+#pi = estimate_pi(L, q, d, n)
+
+## OR
+
+# Theoretical pi using eigendecomposition
+A = L.toarray()
+V, U = np.linalg.eig(A)
+idx = V.argsort()
+V = V[idx]
+U = U[idx]
+g = q/(q+V)
+G = np.diag(g)
+Kq = U.dot(G).dot(U.transpose())
+pi = np.diagonal(Kq)
+
+
 pi_sample = pi[Y]
-xrec = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
+
+# Recovery with unknown U_k
+xrec1 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
+
+# Recovery with known U_k
+xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
 
 print('x=', x)
-print('xrec=', xrec)
-print('difference norm=', np.linalg.norm(x-xrec))
+print('--- Recovery without Uk ---')
+print('xrec1=', xrec1)
+print('difference norm1=', np.linalg.norm(x-xrec1))
+print('--- Recovery with known Uk ---')
+print('xrec2=', xrec2)
+print('difference norm2=', np.linalg.norm(x-xrec2))
