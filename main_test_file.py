@@ -5,12 +5,12 @@ Created on Tue Dec 26 18:06:48 2017
 @author: Quentin
 """
 
-from generate_graph_from_stochastic_block_model import generate_graph_from_stochastic_block_model
-from generate_k_bandlimited_signal import generate_k_bandlimited_signal
-from wilson_algorithm import wilson_algorithm
-from estimate_pi import estimate_pi
-from regularized_reweighted_recovery import regularized_reweighted_recovery
-from reweighted_recovery_with_eigendec import reweighted_recovery_with_eigendec
+from graphSamplingWithDPP import generate_graph_from_stochastic_block_model
+from graphSamplingWithDPP import generate_k_bandlimited_signal
+from graphSamplingWithDPP import wilson_algorithm
+#from graphSamplingWithDPP import estimate_pi
+from graphSamplingWithDPP import regularized_reweighted_recovery
+from graphSamplingWithDPP import reweighted_recovery_with_eigendec
 
 import numpy as np
 import scipy as sp
@@ -32,10 +32,11 @@ k = 2
 N = 10              # Number of nodes
 kgraph = 2          # Number of communities
 
-c = 8               # Average degree
+c = 4               # Average degree
 
-epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (k - 1))
-epsilon = 1 * epsilonc       # q2/q1
+epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (k - 1))    # Critical epsilon
+                    # above which one can no longer distinguish communities
+epsilon = 0.5 * epsilonc       # q2/q1
 
 ### Number of measurements
 m = 3 # should be >= k
@@ -46,7 +47,7 @@ q = 1.0             # Will be adapted if the size of the sampled DPP
 
 # Recovery parameters
 d = 20
-n = int(np.floor(20 * np.log(N)))
+n = 10 * int(np.floor(20 * np.log(N)))
 gamma = 1e-5
 r = 4
 
@@ -96,12 +97,9 @@ y += np.random.normal(0, 10e-4, size=y.shape)
 # Theoretical pi using eigendecomposition
 A = L.toarray()
 V, U = np.linalg.eig(A)
-idx = V.argsort()
-V = V[idx]
-U = U[idx]
 g = q/(q+V)
-G = np.diag(g)
-Kq = U.dot(G).dot(U.transpose())
+gdiag = np.diag(g)
+Kq = U.dot(gdiag).dot(U.transpose())
 pi = np.diagonal(Kq)
 
 

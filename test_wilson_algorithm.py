@@ -9,7 +9,7 @@ Created on Sat Nov 25 17:38:34 2017
 
 import numpy as np
 from scipy.sparse import csr_matrix
-from wilson_algorithm import wilson_algorithm
+from graphSamplingWithDPP import wilson_algorithm
 
 
 # Original algorithm

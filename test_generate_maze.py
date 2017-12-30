@@ -8,7 +8,7 @@ Created on Sat Nov 25 18:01:02 2017
 # Generates a maze from the Propp-Wilson algorithm.
 
 import numpy as np
-from generate_maze import generate_maze
+from graphSamplingWithDPP import generate_maze
 
 n = 25
 m = 10

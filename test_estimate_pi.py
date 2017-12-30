@@ -8,9 +8,9 @@ Created on Tue Dec 26 14:17:21 2017
 import numpy as np
 import scipy as sp
 
-from estimate_pi import estimate_pi
+from graphSamplingWithDPP import estimate_pi
 import networkx as nx
-from generate_graph_from_stochastic_block_model import generate_graph_from_stochastic_block_model
+from graphSamplingWithDPP import generate_graph_from_stochastic_block_model
 
 #N = 100
 #q = 30
