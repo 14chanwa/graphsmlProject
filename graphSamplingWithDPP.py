@@ -80,7 +80,7 @@ def generate_graph_from_stochastic_block_model(N, k, epsilon, c):
 ###############################################################################
 
 
-def generate_k_bandlimited_signal(L, k):
+def generate_k_bandlimited_signal(L, k, Lambda_k=None, U_k=None):
     
     """
     Generates a k-bandlimited signal.
@@ -91,6 +91,10 @@ def generate_k_bandlimited_signal(L, k):
         Laplacian matrix of the graph.
     k: int
         The sampled signal will be a combination of the k first eigenmodes.
+    (Optional) Lambda_k: np.array (k x 1)
+        The k-lowest eigenvalues of L. If not provided, will compute.
+    (Optional) U_k: np.array (N x k)
+        The corresponding k eigenmodes. If not provided, will compute.
     
     Returns
     ----------
@@ -104,7 +108,8 @@ def generate_k_bandlimited_signal(L, k):
         The corresponding k eigenmodes.
     """
     
-    Lambda_k, U_k = sp.sparse.linalg.eigsh(L, k=k)
+    if Lambda_k is None or U_k is None:
+        Lambda_k, U_k = sp.sparse.linalg.eigsh(L, k=k, which='LM')
     alpha = np.random.normal(0, 1, (k,))
     alpha /= np.linalg.norm(alpha)
     x = U_k.dot(alpha)
@@ -115,6 +120,67 @@ def generate_k_bandlimited_signal(L, k):
 ###############################################################################
 # DPP sampling
 ###############################################################################
+
+
+def sample_from_DPP(Lambda, V):
+    
+    """
+    Sample from a DPP from the kernel K of eigendecomposition (Lambda, V).
+    This is Algorithm 2 in 
+    Graph sampling with determinantal processes, Nicolas Tremblay et al., 2017
+    
+    Parameters
+    ----------
+    Lambda: np.array (N x 1)
+        Eigenvalues of K.
+    V: np.array (N x N)
+        Eigenvectors of K.
+    
+    Returns
+    ----------
+    Ycal: list
+        List of indices of the sampled nodes
+    """
+    
+    N = Lambda.size
+    J = list()
+    
+    Lambda = np.real(Lambda)
+    
+    # Sample some indices
+    for n in range(N):
+        if np.random.rand() < Lambda[n]:#/(Lambda[n]+1):
+            J.append(n)
+    
+    # Select eigenvectors from indices
+    Vcal = np.real(V[:, J])
+    Ycal = list()
+    
+    while Vcal.shape[1] > 0:
+        # Choose an index with probability 1/card(V) * sum_v (v' * e_i)^2
+        P = np.sum(np.square(Vcal.transpose().dot(np.eye(N))), axis=0)\
+            .reshape(-1)
+        P = P / Vcal.shape[1]
+        index = np.random.choice(N, p=P)
+        Ycal.append(index)
+        
+        if Vcal.shape[1] > 1:     
+            # Make V an orthonormal basis of V orthogonal to e_index using 
+            # Gram-Schmidt algorithm
+            Vnew = np.zeros(Vcal.shape)
+            # First base vector: sampled node
+            Vnew[index, 0] = 1
+            for j in range(1, Vcal.shape[1]):
+                u = Vcal[:, j]
+                for k in range(j):
+                    u -= Vcal[:, j].dot(Vnew[:, k]) * Vnew[:, k]
+                Vnew[:, j] = u / np.linalg.norm(u)
+            # Only keep the orthogonal to the first vector
+            Vcal = Vnew[:, 1:Vcal.shape[1]]
+        else:
+            break
+        
+    return Ycal
 
 
 def estimate_pi(L, q, d, n):

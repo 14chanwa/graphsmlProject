@@ -29,20 +29,20 @@ import networkx as nx
 k = 2
 
 ### Graph creation parameters
-N = 10              # Number of nodes
-kgraph = 2          # Number of communities
+N = 100              # Number of nodes
+kgraph = 3          # Number of communities
 
-c = 4               # Average degree
+c = 14               # Average degree
 
 epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (k - 1))    # Critical epsilon
                     # above which one can no longer distinguish communities
 epsilon = 0.5 * epsilonc       # q2/q1
 
 ### Number of measurements
-m = 3 # should be >= k
+m = 2 # should be >= k
 
 ### Initial q
-q = 1.0             # Will be adapted if the size of the sampled DPP
+q = 0.5             # Will be adapted if the size of the sampled DPP
                     # is not large enough.
 
 # Recovery parameters
@@ -50,6 +50,9 @@ d = 20
 n = 10 * int(np.floor(20 * np.log(N)))
 gamma = 1e-5
 r = 4
+
+# Noise level
+noise_sigma2 = 10e-4
 
 ##### END PARAMETERS #####
 
@@ -102,19 +105,51 @@ gdiag = np.diag(g)
 Kq = U.dot(gdiag).dot(U.transpose())
 pi = np.diagonal(Kq)
 
-
 pi_sample = pi[Y]
 
-# Recovery with unknown U_k
-xrec1 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
 
-# Recovery with known U_k
-xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
+# Number of trial signals
+nb_signals = 1000
 
-print('x=', x)
-print('--- Recovery without Uk ---')
-print('xrec1=', xrec1)
-print('difference norm1=', np.linalg.norm(x-xrec1))
+# Results
+results_known_Uk = list()
+
+for i in range(nb_signals):
+
+    # Generate a k-bandlimited signal
+    x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
+    
+    # Sample the signal
+    M = sp.sparse.lil_matrix((len(Y), N))
+    M[np.arange(len(Y)), Y] = 1
+    M = M.tocsr()
+    
+    # Measurement + noise
+    y = M.dot(x)
+    y += np.random.normal(0, noise_sigma2, size=y.shape)
+    
+    ## Recovery with unknown U_k
+    #xrec1 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
+    
+    # Recovery with known U_k
+    xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
+    results_known_Uk.append(np.linalg.norm(x-xrec2))
+    
 print('--- Recovery with known Uk ---')
-print('xrec2=', xrec2)
-print('difference norm2=', np.linalg.norm(x-xrec2))
+print('quantiles difference norm=', np.percentile(results_known_Uk, [10, 50, 90]))
+
+
+
+## Recovery with unknown U_k
+#xrec1 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
+#
+## Recovery with known U_k
+#xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
+#
+##print('x=', x)
+#print('--- Recovery without Uk ---')
+##print('xrec1=', xrec1)
+#print('difference norm1=', np.linalg.norm(x-xrec1))
+#print('--- Recovery with known Uk ---')
+##print('xrec2=', xrec2)
+#print('difference norm2=', np.linalg.norm(x-xrec2))
