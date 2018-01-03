@@ -128,6 +128,8 @@ def sample_from_DPP(Lambda, V):
     Sample from a DPP from the kernel K of eigendecomposition (Lambda, V).
     This is Algorithm 2 in 
     Graph sampling with determinantal processes, Nicolas Tremblay et al., 2017
+    and Algorithm 1 in
+    Determinantal Point Processes for Machine Learning, A. Kulesza et al., 2012
     
     Parameters
     ----------
