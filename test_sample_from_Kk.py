@@ -73,7 +73,7 @@ pair = np.array([50, 61])
 sq_norms = []
 
 # Number of iterations
-n_iterations = 80000
+n_iterations = 20000
 singleton_count= 0
 pair_count = 0
 

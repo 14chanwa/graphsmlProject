@@ -52,7 +52,7 @@ gamma = 1e-5
 r = 4
 
 # Noise level
-noise_sigma2 = 10e-4
+noise_sigma = 10e-4
 
 ##### END PARAMETERS #####
 
@@ -126,7 +126,7 @@ for i in range(nb_signals):
     
     # Measurement + noise
     y = M.dot(x)
-    y += np.random.normal(0, noise_sigma2, size=y.shape)
+    y += np.random.normal(0, noise_sigma, size=y.shape)
     
     ## Recovery with unknown U_k
     #xrec1 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
