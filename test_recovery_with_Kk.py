@@ -26,7 +26,7 @@ import networkx as nx
 ##### PARAMETERS #####
 
 ### Signal band
-k = 2
+k = 3
 
 ### Graph creation parameters
 N = 100              # Number of nodes
@@ -75,7 +75,7 @@ for j in range(nb_graphs):
     
     # Sample nodes from the DPP of kernel K_k
     K_k = U_k.dot(U_k.transpose())
-    eigenvalues, eigenvectors = np.linalg.eig(K_k)
+    eigenvalues, eigenvectors = np.linalg.eigh(K_k)
     Y = sample_from_DPP(eigenvalues, eigenvectors)
     #    print('Sampled DPP=', Y)
     
@@ -103,10 +103,18 @@ for j in range(nb_graphs):
         
         # Recovery with known U_k
         xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
+        
+        if np.linalg.norm(x-xrec2) > 1:
+            print('--- anormaly detected, normdiff=', np.linalg.norm(x-xrec2))
+            print('Y=', Y)
+#            print('x=', x)
+#            print('xrec=', xrec2)
+        
         results_known_Uk.append(np.linalg.norm(x-xrec2))
     
 print('--- Recovery with known Uk ---')
 print('10, 50, 90 quantiles difference norm=')
 print(np.percentile(results_known_Uk, [10, 50, 90]))
+print('max difference norm=', np.max(results_known_Uk))
 print('expected noise norm=', np.linalg.norm(np.random.normal(0, noise_sigma,\
                                                               size=k)))

@@ -9,7 +9,7 @@ from graphSamplingWithDPP import generate_graph_from_stochastic_block_model
 from graphSamplingWithDPP import generate_k_bandlimited_signal
 from graphSamplingWithDPP import wilson_algorithm
 #from graphSamplingWithDPP import estimate_pi
-from graphSamplingWithDPP import regularized_reweighted_recovery
+#from graphSamplingWithDPP import regularized_reweighted_recovery
 from graphSamplingWithDPP import reweighted_recovery_with_eigendec
 
 import numpy as np
@@ -99,7 +99,7 @@ y += np.random.normal(0, 10e-4, size=y.shape)
 
 # Theoretical pi using eigendecomposition
 A = L.toarray()
-V, U = np.linalg.eig(A)
+V, U = np.linalg.eigh(A)
 g = q/(q+V)
 gdiag = np.diag(g)
 Kq = U.dot(gdiag).dot(U.transpose())
@@ -137,7 +137,7 @@ for i in range(nb_signals):
     
 print('--- Recovery with known Uk ---')
 print('quantiles difference norm=', np.percentile(results_known_Uk, [10, 50, 90]))
-
+print('max difference norm=', np.max(results_known_Uk))
 
 
 ## Recovery with unknown U_k

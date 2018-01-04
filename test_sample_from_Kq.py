@@ -63,7 +63,7 @@ x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
 
 # Build K_q
 A = L.toarray()
-V, U = np.linalg.eig(A)
+V, U = np.linalg.eigh(A)
 g = q/(q+V)
 gdiag = np.diag(g)
 K_q = U.dot(gdiag).dot(U.transpose())
@@ -71,8 +71,10 @@ K_q = U.dot(gdiag).dot(U.transpose())
 # Check DPP sample validity
 # For some singleton
 singleton = 80
+singleton2 = 12
 # and some pair
 pair = np.array([80, 81])
+pair2 = np.array([40, 70])
 
 # Check prop III.1 (E(norm(P^{-1/2} * M * x)^2) = norm(x)^2)
 sq_norms = []
@@ -81,9 +83,11 @@ sq_norms = []
 card = []
 
 # Number of iterations
-n_iterations = 2000
+n_iterations = 10000
 singleton_count= 0
+singleton2_count= 0
 pair_count = 0
+pair2_count = 0
 
 print('n_iterations=', n_iterations)
 
@@ -96,8 +100,12 @@ for i in range(n_iterations):
     
     if np.in1d(singleton, np.array(Ycal)).all():
         singleton_count += 1
+    if np.in1d(singleton2, np.array(Ycal)).all():
+        singleton2_count += 1
     if np.in1d(pair, np.array(Ycal)).all():
         pair_count += 1
+    if np.in1d(pair2, np.array(Ycal)).all():
+        pair2_count += 1
         
     Pm12 = np.diag(1 / np.sqrt(np.diagonal(K_q)[Ycal]))
     M = np.zeros((len(Ycal), N))
@@ -111,10 +119,16 @@ print('Empirical=', np.mean(card))
 print('------- Singleton:')
 print('Theoretical proba=', K_q[singleton, singleton])
 print('Empirical proba=', singleton_count / n_iterations)
+print('------- Singleton2:')
+print('Theoretical proba=', K_q[singleton2, singleton2])
+print('Empirical proba=', singleton2_count / n_iterations)
 print('------- Pair:')
 print('Theoretical proba=', np.linalg.det((K_q[:, pair])[pair, :]))
 print('Empirical proba=', pair_count / n_iterations)
+print('------- Pair2:')
+print('Theoretical proba=', np.linalg.det((K_q[:, pair2])[pair2, :]))
+print('Empirical proba=', pair2_count / n_iterations)
 print('------- Norms:')
-print('x sqnorm=', np.linalg.norm(x)**2)
-print('DPP sqnorm=', np.mean(sq_norms))
+print('mean np.linalg.norm(x)**2=', np.linalg.norm(x)**2)
+print('mean np.linalg.norm(Pm12.dot(M).dot(x))**2=', np.mean(sq_norms))
 

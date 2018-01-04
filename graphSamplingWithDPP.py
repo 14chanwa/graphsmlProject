@@ -83,7 +83,9 @@ def generate_graph_from_stochastic_block_model(N, k, epsilon, c):
 def generate_k_bandlimited_signal(L, k, Lambda_k=None, U_k=None):
     
     """
-    Generates a k-bandlimited signal.
+    Generates a k-bandlimited signal (a signal that is the combination of the
+    first k eigenmodes of the Laplacian, i.e. the k modes with the smallest
+    eigenvalues).
     
     Parameters
     ----------
@@ -109,7 +111,9 @@ def generate_k_bandlimited_signal(L, k, Lambda_k=None, U_k=None):
     """
     
     if Lambda_k is None or U_k is None:
-        Lambda_k, U_k = sp.sparse.linalg.eigsh(L, k=k, which='LM')
+        # Find the k lowest eigenmodes using Scipy shift-invert mode
+        # See: https://docs.scipy.org/doc/scipy/reference/tutorial/arpack.html
+        Lambda_k, U_k = sp.sparse.linalg.eigsh(L, k=k, sigma=0, which='LM')
     alpha = np.random.normal(0, 1, (k,))
     alpha /= np.linalg.norm(alpha)
     x = U_k.dot(alpha)
@@ -147,7 +151,7 @@ def sample_from_DPP(Lambda, V):
     N = Lambda.size
     J = list()
     
-    Lambda = np.real(Lambda)
+    #    Lambda = np.real(Lambda)
     
     # Sample some indices
     for n in range(N):
@@ -155,7 +159,8 @@ def sample_from_DPP(Lambda, V):
             J.append(n)
     
     # Select eigenvectors from indices
-    Vcal = np.real(V[:, J])
+    #    Vcal = np.real(V[:, J])
+    Vcal = V[:, J]
     Ycal = list()
     
     while Vcal.shape[1] > 0:

@@ -25,7 +25,6 @@ to the norm of the original signal.
 
 """
 
-
 ##### PARAMETERS #####
 
 ### Signal band
@@ -59,49 +58,104 @@ x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
 
 
 # Build K_k
+#dummy, Uk = np.linalg.eigh(L.toarray())
+#idx = dummy.argsort()   
+#Uk = Uk[:,idx[range(k)]]
 K_k = U_k.dot(U_k.transpose())
-eigenvalues, eigenvectors = np.linalg.eig(K_k)
-
+eigenvalues, eigenvectors = np.linalg.eigh(K_k)
+#idx = eigenvalues.argsort()
+#eigenvalues = eigenvalues[idx]
+#eigenvectors = eigenvectors[idx]
 
 # Check DPP sample validity
 # For some singleton
 singleton = 80
+singleton2 = 12
 # and some pair
-pair = np.array([50, 61])
+pair = np.array([80, 81])
+pair2 = np.array([40, 70])
 
 # Check prop III.1 (E(norm(P^{-1/2} * M * x)^2) = norm(x)^2)
 sq_norms = []
 
+
 # Number of iterations
-n_iterations = 20000
+n_iterations = 50000
 singleton_count= 0
+singleton2_count= 0
 pair_count = 0
+pair2_count = 0
 
 print('n_iterations=', n_iterations)
 
 for i in range(n_iterations):
     # Sample from DPP
     Ycal = sample_from_DPP(eigenvalues, eigenvectors)
-    if len(Ycal) != k:
-        print('Anormaly detected: size ', len(Ycal), '!=', k)
+    #    print('Ycal=', Ycal)
+    #    print(np.in1d(singleton, np.array(Ycal)))
+    #    print(np.in1d(pair, np.array(Ycal)))
     
     if np.in1d(singleton, np.array(Ycal)).all():
         singleton_count += 1
+    if np.in1d(singleton2, np.array(Ycal)).all():
+        singleton2_count += 1
     if np.in1d(pair, np.array(Ycal)).all():
         pair_count += 1
+    if np.in1d(pair2, np.array(Ycal)).all():
+        pair2_count += 1
         
     Pm12 = np.diag(1 / np.sqrt(np.diagonal(K_k)[Ycal]))
     M = np.zeros((len(Ycal), N))
     M[np.arange(len(Ycal)), Ycal] = 1
     sq_norms.append(np.linalg.norm(Pm12.dot(M).dot(x))**2)
     
-    
+
 print('------- Singleton:')
 print('Theoretical proba=', K_k[singleton, singleton])
 print('Empirical proba=', singleton_count / n_iterations)
+print('------- Singleton2:')
+print('Theoretical proba=', K_k[singleton2, singleton2])
+print('Empirical proba=', singleton2_count / n_iterations)
 print('------- Pair:')
 print('Theoretical proba=', np.linalg.det((K_k[:, pair])[pair, :]))
 print('Empirical proba=', pair_count / n_iterations)
+print('------- Pair2:')
+print('Theoretical proba=', np.linalg.det((K_k[:, pair2])[pair2, :]))
+print('Empirical proba=', pair2_count / n_iterations)
 print('------- Norms:')
-print('x sqnorm=', np.linalg.norm(x)**2)
-print('DPP sqnorm=', np.mean(sq_norms))
+print('mean np.linalg.norm(x)**2=', np.linalg.norm(x)**2)
+print('mean np.linalg.norm(Pm12.dot(M).dot(x))**2=', np.mean(sq_norms))
+
+## Number of iterations
+#n_iterations = 20000
+#singleton_count= 0
+#pair_count = 0
+#
+#print('n_iterations=', n_iterations)
+#
+#for i in range(n_iterations):
+#    # Sample from DPP
+#    Ycal = sample_from_DPP(eigenvalues, eigenvectors)
+#    if len(Ycal) != k:
+#        print('Anormaly detected: size ', len(Ycal), '!=', k)
+#    
+#    if np.in1d(singleton, np.array(Ycal)).all():
+#        singleton_count += 1
+#    if np.in1d(pair, np.array(Ycal)).all():
+#        pair_count += 1
+#        
+#    Pm12 = np.diag(1 / np.sqrt(np.diagonal(K_k)[Ycal]))
+#    M = np.zeros((len(Ycal), N))
+#    M[np.arange(len(Ycal)), Ycal] = 1
+#    sq_norms.append(np.linalg.norm(Pm12.dot(M).dot(x))**2)
+#    
+#    
+#print('------- Singleton:')
+#print('Theoretical proba=', K_k[singleton, singleton])
+#print('Empirical proba=', singleton_count / n_iterations)
+#print('------- Pair:')
+#print('Theoretical proba=', np.linalg.det((K_k[:, pair])[pair, :]))
+#print('Empirical proba=', pair_count / n_iterations)
+#print('------- Norms:')
+#print('x sqnorm=', np.linalg.norm(x)**2)
+#print('DPP sqnorm=', np.mean(sq_norms))
