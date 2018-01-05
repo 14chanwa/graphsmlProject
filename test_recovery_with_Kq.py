@@ -5,16 +5,13 @@ Created on Tue Dec 26 18:06:48 2017
 @author: Quentin
 """
 
-from graphSamplingWithDPP import generate_graph_from_stochastic_block_model
-from graphSamplingWithDPP import generate_k_bandlimited_signal
-from graphSamplingWithDPP import wilson_algorithm
-#from graphSamplingWithDPP import estimate_pi
-#from graphSamplingWithDPP import regularized_reweighted_recovery
-from graphSamplingWithDPP import reweighted_recovery_with_eigendec
-
 import numpy as np
 import scipy as sp
 import networkx as nx
+
+from graphSamplingWithDPP import generate_graph_from_stochastic_block_model,\
+    generate_k_bandlimited_signal, wilson_algorithm,\
+    reweighted_recovery_with_eigendec
 
 
 # A complete usecase
@@ -30,19 +27,19 @@ k = 2
 
 ### Graph creation parameters
 N = 100              # Number of nodes
-kgraph = 3          # Number of communities
+kgraph = 2          # Number of communities
 
-c = 14               # Average degree
+c = 16               # Average degree
 
 epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (k - 1))    # Critical epsilon
                     # above which one can no longer distinguish communities
-epsilon = 0.5 * epsilonc       # q2/q1
+epsilon = 0.1 * epsilonc       # q2/q1
 
 ### Number of measurements
 m = 2 # should be >= k
 
 ### Initial q
-q = 0.5             # Will be adapted if the size of the sampled DPP
+initial_q = 0.2             # Will be adapted if the size of the sampled DPP
                     # is not large enough.
 
 # Recovery parameters
@@ -68,27 +65,16 @@ W = sp.sparse.csr_matrix(nx.adjacency_matrix(G), dtype='d')
 # Generate a k-bandlimited signal
 x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
 
-# Sample m nodes from a DPP
-# Adapt q using a heuristic from
-# On some random forests with determinantal roots, L. Avena, A. Gaudillère
-Y = []
-while len(Y) < m:
-    if len(Y) > 0:
-        q = q * m / len(Y)
-    Y = wilson_algorithm(W, q)[0]
-    print('Attempting to sample m nodes... q=', q)
-    print('Size of the sample=', len(Y))
-Y.sort()
-print('Sampled DPP=', Y)
 
-# Sample the signal
-M = sp.sparse.lil_matrix((len(Y), N))
-M[np.arange(len(Y)), Y] = 1
-M = M.tocsr()
 
-# Measurement + noise
-y = M.dot(x)
-y += np.random.normal(0, 10e-4, size=y.shape)
+## Sample the signal
+#M = sp.sparse.lil_matrix((len(Y), N))
+#M[np.arange(len(Y)), Y] = 1
+#M = M.tocsr()
+#
+## Measurement + noise
+#y = M.dot(x)
+#y += np.random.normal(0, 10e-4, size=y.shape)
 
 # Recover the signal
 
@@ -97,47 +83,90 @@ y += np.random.normal(0, 10e-4, size=y.shape)
 
 ## OR
 
-# Theoretical pi using eigendecomposition
-A = L.toarray()
-V, U = np.linalg.eigh(A)
-g = q/(q+V)
-gdiag = np.diag(g)
-Kq = U.dot(gdiag).dot(U.transpose())
-pi = np.diagonal(Kq)
-
-pi_sample = pi[Y]
 
 
-# Number of trial signals
-nb_signals = 1000
+#pi_sample = pi[Y]
+
+
+# Number of different graphs
+nb_graphs = 100
+print('Nb graph trials=', nb_graphs)
+
+# Number of trial signals per graph
+nb_signals = 100
+print('Nb signal trials per graph=', nb_signals)
 
 # Results
 results_known_Uk = list()
 
-for i in range(nb_signals):
+for j in range(nb_graphs):
 
-    # Generate a k-bandlimited signal
-    x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
+    # Generate graph
+    G = generate_graph_from_stochastic_block_model(N, kgraph, epsilon, c)
+    #    print('Number of CCs=', nx.number_connected_components(G))
     
-    # Sample the signal
-    M = sp.sparse.lil_matrix((len(Y), N))
-    M[np.arange(len(Y)), Y] = 1
-    M = M.tocsr()
+    # Get laplacian and adjacency matrix
+    L = sp.sparse.csr_matrix(nx.laplacian_matrix(G), dtype='d')
+    W = sp.sparse.csr_matrix(nx.adjacency_matrix(G), dtype='d')
     
-    # Measurement + noise
-    y = M.dot(x)
-    y += np.random.normal(0, noise_sigma, size=y.shape)
+    # Sample m nodes from a DPP
+    # Adapt q using a heuristic from
+    # On some random forests with determinantal roots, L. Avena, A. Gaudillère
+    Y = []
+    q = initial_q
+    while len(Y) < m:
+        if len(Y) > 0:
+            q = q * m / len(Y)
+        Y = wilson_algorithm(W, q)[0]
+        print('Attempting to sample m nodes... q=', q)
+        print('Size of the sample=', len(Y))
+    Y.sort()
+    print('Sampled DPP=', Y)
     
-    ## Recovery with unknown U_k
-    #xrec1 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
+    # Theoretical pi using eigendecomposition
+    A = L.toarray()
+    V, U = np.linalg.eigh(A)
+    g = q/(q+V)
+    gdiag = np.diag(g)
+    Kq = U.dot(gdiag).dot(U.transpose())
+    pi = np.diagonal(Kq)
     
-    # Recovery with known U_k
-    xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
-    results_known_Uk.append(np.linalg.norm(x-xrec2))
+    pi_sample = pi[Y]
+    
+    for i in range(nb_signals):
+    
+        # Generate a k-bandlimited signal
+        x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
+        
+        # Sample the signal
+        M = sp.sparse.lil_matrix((len(Y), N))
+        M[np.arange(len(Y)), Y] = 1
+        M = M.tocsr()
+        
+        # Measurement + noise
+        y = M.dot(x)
+#        y += np.random.normal(0, noise_sigma, size=y.shape)
+        
+        # Recovery with unknown U_k
+#        xrec2 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
+        
+#        # Recovery with known U_k
+        xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
+        
+        if np.linalg.norm(x-xrec2) > 1:
+            print('--- anormaly detected, normdiff=', np.linalg.norm(x-xrec2))
+            print('Y=', Y)
+#            print('x=', x)
+#            print('xrec=', xrec2)
+        
+        results_known_Uk.append(np.linalg.norm(x-xrec2))
     
 print('--- Recovery with known Uk ---')
-print('quantiles difference norm=', np.percentile(results_known_Uk, [10, 50, 90]))
+print('10, 50, 90 quantiles difference norm=')
+print(np.percentile(results_known_Uk, [10, 50, 90]))
 print('max difference norm=', np.max(results_known_Uk))
+print('expected noise norm=', np.linalg.norm(np.random.normal(0, noise_sigma,\
+                                                              size=k)))
 
 
 ## Recovery with unknown U_k

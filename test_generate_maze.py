@@ -62,6 +62,7 @@ for ell in P:
 #plt.scatter(nodes[:, 0], nodes[:, 1])
 
 plt.gca().set_aspect('equal', adjustable='box')
+plt.gca().axes.axis('off')
 plt.show()
 
 #Y, P = wilson_algorithm(W, 0.1)

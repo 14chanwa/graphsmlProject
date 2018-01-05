@@ -5,12 +5,10 @@ Created on Tue Dec 26 18:06:48 2017
 @author: Quentin
 """
 
-from graphSamplingWithDPP import generate_graph_from_stochastic_block_model
-from graphSamplingWithDPP import generate_k_bandlimited_signal
-from graphSamplingWithDPP import sample_from_DPP
-#from graphSamplingWithDPP import estimate_pi
-#from graphSamplingWithDPP import regularized_reweighted_recovery
-from graphSamplingWithDPP import reweighted_recovery_with_eigendec
+from graphSamplingWithDPP import generate_graph_from_stochastic_block_model,\
+    generate_k_bandlimited_signal, sample_from_DPP,\
+    reweighted_recovery_with_eigendec,\
+    regularized_reweighted_recovery
 
 import numpy as np
 import scipy as sp
@@ -26,7 +24,7 @@ import networkx as nx
 ##### PARAMETERS #####
 
 ### Signal band
-k = 3
+k = 2
 
 ### Graph creation parameters
 N = 100              # Number of nodes
@@ -36,16 +34,16 @@ c = 16               # Average degree
 
 epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (k - 1))    # Critical epsilon
                     # above which one can no longer distinguish communities
-epsilon = 0.5 * epsilonc       # q2/q1
+epsilon = 0.1 * epsilonc       # q2/q1
 
 # Recovery parameters
-d = 20
-n = 10 * int(np.floor(20 * np.log(N)))
+d = 30
+n = int(np.floor(20 * np.log(N)))
 gamma = 1e-5
 r = 4
 
 # Noise level
-noise_sigma = 10e-4
+noise_sigma = 10e-5
 
 ##### END PARAMETERS #####
 
@@ -77,6 +75,7 @@ for j in range(nb_graphs):
     K_k = U_k.dot(U_k.transpose())
     eigenvalues, eigenvectors = np.linalg.eigh(K_k)
     Y = sample_from_DPP(eigenvalues, eigenvectors)
+#    Y = dpp_exact_sampling_KuTa12(eigenvalues, eigenvectors)
     #    print('Sampled DPP=', Y)
     
     # Theoretical pi using eigendecomposition
@@ -98,10 +97,10 @@ for j in range(nb_graphs):
         y = M.dot(x)
         y += np.random.normal(0, noise_sigma, size=y.shape)
         
-        ## Recovery with unknown U_k
-        #xrec1 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
+        # Recovery with unknown U_k
+#        xrec2 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
         
-        # Recovery with known U_k
+#        # Recovery with known U_k
         xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
         
         if np.linalg.norm(x-xrec2) > 1:

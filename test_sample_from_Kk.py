@@ -9,9 +9,8 @@ Created on Wed Jan  3 05:40:47 2018
 import numpy as np
 import scipy as sp
 import networkx as nx
-from graphSamplingWithDPP import generate_graph_from_stochastic_block_model
-from graphSamplingWithDPP import generate_k_bandlimited_signal
-from graphSamplingWithDPP import sample_from_DPP
+from graphSamplingWithDPP import generate_graph_from_stochastic_block_model,\
+    generate_k_bandlimited_signal, sample_from_DPP
 
 
 """
@@ -28,11 +27,11 @@ to the norm of the original signal.
 ##### PARAMETERS #####
 
 ### Signal band
-k = 4
+k = 2
 
 ### Graph creation parameters
 N = 100              # Number of nodes
-kgraph = 3          # Number of communities
+kgraph = 2          # Number of communities
 
 c = 16               # Average degree
 
@@ -52,20 +51,12 @@ G = generate_graph_from_stochastic_block_model(N, kgraph, epsilon, c)
 L = sp.sparse.csr_matrix(nx.laplacian_matrix(G), dtype='d')
 W = sp.sparse.csr_matrix(nx.adjacency_matrix(G), dtype='d')
 
-
 # Generate a k-bandlimited signal
 x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
 
-
 # Build K_k
-#dummy, Uk = np.linalg.eigh(L.toarray())
-#idx = dummy.argsort()   
-#Uk = Uk[:,idx[range(k)]]
 K_k = U_k.dot(U_k.transpose())
 eigenvalues, eigenvectors = np.linalg.eigh(K_k)
-#idx = eigenvalues.argsort()
-#eigenvalues = eigenvalues[idx]
-#eigenvectors = eigenvectors[idx]
 
 # Check DPP sample validity
 # For some singleton
@@ -91,9 +82,6 @@ print('n_iterations=', n_iterations)
 for i in range(n_iterations):
     # Sample from DPP
     Ycal = sample_from_DPP(eigenvalues, eigenvectors)
-    #    print('Ycal=', Ycal)
-    #    print(np.in1d(singleton, np.array(Ycal)))
-    #    print(np.in1d(pair, np.array(Ycal)))
     
     if np.in1d(singleton, np.array(Ycal)).all():
         singleton_count += 1
@@ -125,6 +113,7 @@ print('Empirical proba=', pair2_count / n_iterations)
 print('------- Norms:')
 print('mean np.linalg.norm(x)**2=', np.linalg.norm(x)**2)
 print('mean np.linalg.norm(Pm12.dot(M).dot(x))**2=', np.mean(sq_norms))
+
 
 ## Number of iterations
 #n_iterations = 20000

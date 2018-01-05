@@ -8,9 +8,8 @@ Created on Sat Nov 25 17:38:34 2017
 import numpy as np
 import scipy as sp
 import networkx as nx
-from graphSamplingWithDPP import generate_graph_from_stochastic_block_model
-from graphSamplingWithDPP import generate_k_bandlimited_signal
-from graphSamplingWithDPP import wilson_algorithm
+from graphSamplingWithDPP import generate_graph_from_stochastic_block_model,\
+    generate_k_bandlimited_signal, wilson_algorithm
 
 
 """
@@ -28,11 +27,11 @@ to the norm of the original signal.
 ##### PARAMETERS #####
 
 ### Signal band
-k = 4
+k = 2
 
 ### Graph creation parameters
 N = 100              # Number of nodes
-kgraph = 3          # Number of communities
+kgraph = 2          # Number of communities
 
 c = 16               # Average degree
 

@@ -8,8 +8,8 @@ Created on Thu Jan  4 11:06:07 2018
 import numpy as np
 import scipy as sp
 import networkx as nx
-from graphSamplingWithDPP import generate_graph_from_stochastic_block_model
-from graphSamplingWithDPP import generate_k_bandlimited_signal
+from graphSamplingWithDPP import generate_graph_from_stochastic_block_model,\
+    generate_k_bandlimited_signal
 
 """
 The goal of this test file is to demonstrate the computation difference between

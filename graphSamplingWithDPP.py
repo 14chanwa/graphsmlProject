@@ -149,14 +149,11 @@ def sample_from_DPP(Lambda, V):
     """
     
     N = Lambda.size
-    J = list()
     
     #    Lambda = np.real(Lambda)
     
     # Sample some indices
-    for n in range(N):
-        if np.random.rand() < Lambda[n]:#/(Lambda[n]+1):
-            J.append(n)
+    J = np.random.rand(len(Lambda)) < Lambda
     
     # Select eigenvectors from indices
     #    Vcal = np.real(V[:, J])
@@ -165,28 +162,46 @@ def sample_from_DPP(Lambda, V):
     
     while Vcal.shape[1] > 0:
         # Choose an index with probability 1/card(V) * sum_v (v' * e_i)^2
-        P = np.sum(np.square(Vcal.transpose().dot(np.eye(N))), axis=0)\
-            .reshape(-1)
+        P = np.sum(np.square(Vcal), axis=1)#\
+            #.reshape(-1)
         P = P / Vcal.shape[1]
         index = np.random.choice(N, p=P)
         Ycal.append(index)
-        
-        if Vcal.shape[1] > 1:     
-            # Make V an orthonormal basis of V orthogonal to e_index using 
-            # Gram-Schmidt algorithm
-            Vnew = np.zeros(Vcal.shape)
-            # First base vector: sampled node
-            Vnew[index, 0] = 1
+#        
+#        if Vcal.shape[1] > 1:     
+#            # Make V an orthonormal basis of V orthogonal to e_index using 
+#            # Gram-Schmidt algorithm
+#            Vnew = np.zeros(Vcal.shape)
+#            # First base vector: sampled node
+#            Vnew[index, 0] = 1
+#            for j in range(1, Vcal.shape[1]):
+#                u = Vcal[:, j]
+#                for k in range(j):
+#                    u -= Vcal[:, j].dot(Vnew[:, k]) * Vnew[:, k]
+#                Vnew[:, j] = u / np.linalg.norm(u)
+#            # Only keep the orthogonal to the first vector
+#            Vcal = Vnew[:, 1:Vcal.shape[1]]
+#        else:
+#            break
+
+        if Vcal.shape[1] > 1:
+            # Find Vcal[:, j] that is a linear combination of e_index
+            j = np.where(Vcal[index,:]!=0)[0][0]
+            # Remove some Vcal[:, j] to cancel the contribution of V along 
+            # e_index (outputs some base of V orthogonal to e_index)
+            Vcal -= (Vcal[:,j]/Vcal[index,j])[:,np.newaxis] * Vcal[index,:] 
+            # Delete the column j
+            Vcal = np.delete(Vcal, j, axis=1)
+            # Normalize the first column
+            Vcal[:, 0] /= np.linalg.norm(Vcal[:, 0])
+            # Use Gram-Schmidt to orthonormalize the rest of the vectors
             for j in range(1, Vcal.shape[1]):
-                u = Vcal[:, j]
-                for k in range(j):
-                    u -= Vcal[:, j].dot(Vnew[:, k]) * Vnew[:, k]
-                Vnew[:, j] = u / np.linalg.norm(u)
-            # Only keep the orthogonal to the first vector
-            Vcal = Vnew[:, 1:Vcal.shape[1]]
+                Vcal[:, j] -= np.sum(Vcal[:, j].transpose().dot(Vcal[:, 1:j]) \
+                    * Vcal[:, 1:j], axis=1)
+                Vcal[:, j] /= np.linalg.norm(Vcal[:, j])
         else:
             break
-        
+            
     return Ycal
 
 
