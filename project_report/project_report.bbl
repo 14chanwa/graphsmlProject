@@ -1,22 +1,9 @@
 \begin{thebibliography}{1}
 
-\bibitem{hagberg2008}
-Aric~A. Hagberg, Daniel~A. Schult, and Pieter~J. Swart.
-\newblock Exploring network structure, dynamics, and function using {NetworkX}.
-\newblock In {\em Proceedings of the 7th Python in Science Conference
-  (SciPy2008)}, pages 11--15, Pasadena, CA USA, August 2008.
-
-\bibitem{kuelsza2012}
-Alex Kulesza and Ben Taskar.
-\newblock Determinantal point processes for machine learning.
-\newblock {\em Foundations and Trends in Machine Learning}, 5(2-3):123--286,
-  July 2012.
-
-\bibitem{propp1998}
-James~Gary Propp and David~Bruce Wilson.
-\newblock How to get a perfectly random sample from a generic markov chain and
-  generate a random spanning tree of a directed graph.
-\newblock {\em J. Algorithms}, 27(2):170--217, May 1998.
+\bibitem{tremblay2017}
+Nicolas Tremblay, Pierre-Olivier Amblard, and Simon Barthelmé.
+\newblock Graph sampling with determinantal processes.
+\newblock {\em EUSIPCO}, August 2017.
 
 \bibitem{shuman2012}
 David~I. Shuman, Sunil~K. Narang, Pascal Frossard, Antonio Ortega, and Pierre
@@ -25,9 +12,27 @@ David~I. Shuman, Sunil~K. Narang, Pascal Frossard, Antonio Ortega, and Pierre
   to networks and other irregular data domains.
 \newblock {\em CoRR}, abs/1211.0053, 2012.
 
-\bibitem{tremblay2017}
-Nicolas Tremblay, Pierre-Olivier Amblard, and Simon Barthelmé.
-\newblock Graph sampling with determinantal processes.
-\newblock {\em EUSIPCO}, August 2017.
+\bibitem{kuelsza2012}
+Alex Kulesza and Ben Taskar.
+\newblock Determinantal point processes for machine learning.
+\newblock {\em Foundations and Trends in Machine Learning}, 5(2-3):123--286,
+  July 2012.
+
+\bibitem{hagberg2008}
+Aric~A. Hagberg, Daniel~A. Schult, and Pieter~J. Swart.
+\newblock Exploring network structure, dynamics, and function using {NetworkX}.
+\newblock In {\em Proceedings of the 7th Python in Science Conference
+  (SciPy2008)}, pages 11--15, Pasadena, CA USA, August 2008.
+
+\bibitem{propp1998}
+James~Gary Propp and David~Bruce Wilson.
+\newblock How to get a perfectly random sample from a generic markov chain and
+  generate a random spanning tree of a directed graph.
+\newblock {\em J. Algorithms}, 27(2):170--217, May 1998.
+
+\bibitem{avena2013}
+Luca Avena and Alexandre Gaudillière.
+\newblock On some random forests with determinantal roots.
+\newblock {\em arXiv:1310.1723v4}, October 2013.
 
 \end{thebibliography}

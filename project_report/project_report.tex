@@ -77,7 +77,7 @@ where $W \in \R^{N \times N}$ is the matrix of the edges of the graph such that 
 
 Sampling consists in choosing $m$ nodes among $N$ and measuring the signal on these nodes. If $\mathcal{A} = (\omega_1, \cdots, \omega_m)$ is the subset of the chosen nodes, $M \in R^{m \times N}$ is the measurement matrix such that $M_{i, j} = \delta_{j = \omega_i}$. Then a measurement of the signal $x$ on the sample $\mathcal{A}$ writes
 \begin{align} y &= M x + \mathcal{N} \label{eq:measurement}\end{align}
-where $\mathcal{N} \in \R^m$ is a measurement noise.
+where $\mathcal{N} \in \R^m$ is a measurement noise. In the following, we assume $\mathcal{N}$ is gaussian: $\mathcal{N}_i \sim \mathcal{N}(0, \sigma)$.
 
 
 One can show that if $x$ is a $k$-bandlimited signal, then one can hope to reconstruct $x$ if $m \geq k$. The difficulty of the sampling theory is, given a measurement budget $m$, to find $\mathcal{A}$ such that $\abs{\mathcal{A}} = m$ and we can invert \eqref{eq:measurement} so as to reconstruct exactly $x$ from $y$. A sufficient condition for this to be true if $\mathcal{N} \equiv 0$ is that 
@@ -255,7 +255,7 @@ The original algorithm works using loop-erased random walks in the graph until a
 		\ENDWHILE
 		\STATE \textbf{Return:} $Y$
 \end{algorithmic}
-Note: our implementation also saves the sampled spanning tree. In the case $q = 0$, there is no sink and we have the original Propp-Wilson algorithm.
+Note: our implementation also saves the sampled spanning tree. In the case $q = 0$, there is no sink and we have the original Propp-Wilson's algorithm.
 \end{algorithm}
 
 
@@ -303,25 +303,6 @@ We choose two singletons and two pairs, and we compute the empirical probabiliti
     \bottomrule
   \end{tabular}
 \end{table}
-
-%\begin{verbatim}
-%TODO: make a table instead
-%------- Singleton:
-%Theoretical proba= 0.0189521762207
-%Empirical proba= 0.01824
-%------- Singleton2:
-%Theoretical proba= 0.010781904604
-%Empirical proba= 0.01006
-%------- Pair:
-%Theoretical proba= 0.000152315628169
-%Empirical proba= 0.00016
-%------- Pair2:
-%Theoretical proba= 0.000256030200653
-%Empirical proba= 0.0002
-%------- Norms:
-%mean np.linalg.norm(x)**2= 1.0
-%mean np.linalg.norm(Pm12.dot(M).dot(x))**2= 1.00074165703
-%\end{verbatim}
 
 
 We thus confirm that our algorithm samples the right DPP.
@@ -371,27 +352,6 @@ Since this sampling algorithm is much slower than the preceding one, we chose to
   \end{tabular}
 \end{table}
 		
-%\begin{verbatim}
-%TODO: make a table instead
-%------- Cardinal
-%Theoretical= 6.95800812053
-%Empirical= 6.9687
-%------- Singleton:
-%Theoretical proba= 0.067520041977
-%Empirical proba= 0.0657
-%------- Singleton2:
-%Theoretical proba= 0.059207968264
-%Empirical proba= 0.0559
-%------- Pair:
-%Theoretical proba= 0.00417738808421
-%Empirical proba= 0.0045
-%------- Pair2:
-%Theoretical proba= 0.0047052228183
-%Empirical proba= 0.0049
-%------- Norms:
-%mean np.linalg.norm(x)**2= 1.0
-%mean np.linalg.norm(Pm12.dot(M).dot(x))**2= 1.00289718132
-%\end{verbatim}
 
 We thus confirm that our algorithm samples the right DPP.
 
@@ -449,7 +409,7 @@ We note that there are rare cases in which our reconstruction algorithm fails sp
 In this section, we still assume $U_k$ is known. The kernel $K_q$ is build so as to be an approximation of $K_k$. This enables us to sample from $K_q$ without having to explicitely compute $K_q$. We thus try to use the sampling algorithm with $K_q$ to choose the measurement nodes and reconstruct the signal using \eqref{eq:reconstruction:dpp} just as in the preceding section. We use the parameters $N=100$, $k=2$, $c=16$, $\epsilon = 0.1 \times \epsilon_c$ and sample 100 graphs and 100 signals on each graph, then add the corresponding noise levels.
 
 
-We can not set a specific cardinal for the samples of our DPP with kernel $K_q$ ; it depends on a parameter $q$. We chose to fix and initial $q_\text{init}=0.2$ and increase $q$ if the sample is of size $m < k$ with the algorithm suggested in the article. In our tests, the mean cardinal of our sample is $3.11$. 
+We can not set a specific cardinal for the samples of our DPP with kernel $K_q$ ; it depends on a parameter $q$. We chose to fix and initial $q_\text{init}=0.2$ and increase $q$ if the sample is of size $m < k$ with the algorithm suggested in \cite{avena2013}. In our tests, the mean cardinal of our sample is $3.11$. 
 
 
 The results are presented in Figure \ref{fig:Kq:recerror}. We see that the reconstruction noise is comparable to the algorithm sampling from $K_k$. This means that $K_q$ is effectively a good approximation of $K_k$. We could argue that this comparison might be unfair since the mean cardinal of our sample is $3.11 > k = 2$ ; yet the algorithm $K_k$ can not produce samples of size $\neq k$, whereas in Wilson's algorithm we can set the expected sample size with the parameter $q$, that makes this algorithm more adaptable. 
@@ -489,11 +449,21 @@ Similarly, there are cases in which the algorithm fails spectacularly, as presen
 For now, we only used \eqref{eq:reconstruction:dpp}, which requires the knowledge of $P = \mathrm{diag} (\pi_{\omega_1}, \cdots, \pi_{\omega_1})$ and $U_k$. Yet in order to compute $P$, one has to compute the marginal kernel associated to the DPP used to sample the nodes and $U_k$. This is exactly what we wanted to avoid in the first place.
 
 
-TODO: regularization not working yet
+In \cite{tremblay2017}, the authors present an algorithm based on fast filtering on graphs to estimate $P$, and use a regularized reconstruction formula \eqref{eq:reconstruction:dpp:unknown} to penalize high frequencies:
+\begin{align*}
+x_\text{rec} &= \mathrm{argmin}_{z \in \R^N} \norm{P^{-\frac{1}{2}} \left( M z - y \right)}^2 + \gamma z^\top L^r z
+\end{align*}
+\begin{align} \boxed{x_\text{rec} = (M^\top P^{-1} M + \gamma L^r)^{-1} M^\top P^{-1} y}. \label{eq:reconstruction:dpp:unknown:explicit} \end{align}
+
+
+As before, using the direct formula \eqref{eq:reconstruction:dpp:unknown:explicit} implies a $N \times N$ matrix inversion, which might be intractable. One could use optimization algorithms such as gradient descent instead.
+
+
+TODO: regularization and algorithm estimating $P$ not working yet
 
 	
 \newpage
 \bibliography{bibliography} 
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 
 \end{document}

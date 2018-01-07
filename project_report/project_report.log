@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.25)  7 JAN 2018 12:54
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.25)  7 JAN 2018 13:51
 entering extended mode
 **./project_report.tex
 (project_report.tex
@@ -542,7 +542,7 @@ LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.337 ...1}^{N} \frac{q}{q+\lambda_i}. \end{align}
+l.318 ...1}^{N} \frac{q}{q+\lambda_i}. \end{align}
                                                    <./maze1.png> <./maze2.png> <./maze3.png> <./maze4.png>]
 Package epstopdf Info: Source file: <error_function_noise_Kk.eps>
 (epstopdf)                    date: 2018-01-07 12:04:28
@@ -552,26 +552,26 @@ Package epstopdf Info: Source file: <error_function_noise_Kk.eps>
 (epstopdf)                    size: 18502 bytes
 (epstopdf)             Command: <epstopdf --outfile=error_function_noise_Kk-eps-converted-to.pdf error_function_noise_Kk
 .eps>
-(epstopdf)             \includegraphics on input line 414.
+(epstopdf)             \includegraphics on input line 374.
 Package epstopdf Info: Output file is already uptodate.
 
 <error_function_noise_Kk-eps-converted-to.pdf, id=222, 433.62pt x 289.08pt>
 File: error_function_noise_Kk-eps-converted-to.pdf Graphic file (type pdf)
 
 <use error_function_noise_Kk-eps-converted-to.pdf>
-Package pdftex.def Info: error_function_noise_Kk-eps-converted-to.pdf used on input line 414.
+Package pdftex.def Info: error_function_noise_Kk-eps-converted-to.pdf used on input line 374.
 (pdftex.def)             Requested size: 341.43124pt x 227.62204pt.
  [6pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.450 
+l.410 
       pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignor
 ed
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.450 
+l.410 
       ]
 Package epstopdf Info: Source file: <error_function_noise_Kq.eps>
 (epstopdf)                    date: 2018-01-07 12:35:02
@@ -581,54 +581,57 @@ Package epstopdf Info: Source file: <error_function_noise_Kq.eps>
 (epstopdf)                    size: 18477 bytes
 (epstopdf)             Command: <epstopdf --outfile=error_function_noise_Kq-eps-converted-to.pdf error_function_noise_Kq
 .eps>
-(epstopdf)             \includegraphics on input line 463.
+(epstopdf)             \includegraphics on input line 423.
 Package epstopdf Info: Output file is already uptodate.
- <error_function_noise_Kq-eps-converted-to.pdf, id=240, 433.62pt x 289.08pt>
+ <error_function_noise_Kq-eps-converted-to.pdf, id=241, 433.62pt x 289.08pt>
 File: error_function_noise_Kq-eps-converted-to.pdf Graphic file (type pdf)
 
 <use error_function_noise_Kq-eps-converted-to.pdf>
-Package pdftex.def Info: error_function_noise_Kq-eps-converted-to.pdf used on input line 463.
+Package pdftex.def Info: error_function_noise_Kq-eps-converted-to.pdf used on input line 423.
 (pdftex.def)             Requested size: 341.43124pt x 227.62204pt.
+
+Underfull \vbox (badness 1394) has occurred while \output is active []
+
  [7pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.495 \newpage
-              pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has been already used, duplica
+l.455 \end{align*}
+                  pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has been already used, dup
+licate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.455 \end{align*}
+                   <./error_function_noise_Kk-eps-converted-to.pdf>] [8pdfTeX warning (ext4): destination with the same 
+identifier (name{figure.3}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.465 \newpage
+              pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has been already used, duplica
 te ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.495 \newpage
-               <./error_function_noise_Kk-eps-converted-to.pdf>] (project_report.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 499.
- [8pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
-
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.499 \end{document}
-                    pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has been already used, d
-uplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.499 \end{document}
-                     <./error_function_noise_Kq-eps-converted-to.pdf>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 499.
+l.465 \newpage
+               <./error_function_noise_Kq-eps-converted-to.pdf>] (project_report.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 469.
+ [9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 469.
  (project_report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 499.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 499.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 469.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 469.
 Package rerunfilecheck Info: File `project_report.out' has not changed.
 (rerunfilecheck)             Checksum: 301F1062710B9B9AFA3A3E34966DD9C9;1280.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 499.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 469.
  ) 
 Here is how much of TeX's memory you used:
- 9139 strings out of 493333
- 134548 string characters out of 3145222
- 271345 words of memory out of 3000000
- 12267 multiletter control sequences out of 15000+200000
+ 9146 strings out of 493333
+ 134672 string characters out of 3145222
+ 270432 words of memory out of 3000000
+ 12271 multiletter control sequences out of 15000+200000
  44039 words of font info for 153 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  31i,13n,38p,861b,627s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -643,9 +646,9 @@ amsfonts/cm/cmr10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><D
 /MiKTeX 2.9/fonts/type1/public/doublestroke/dsrom10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb><D
 :/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm7.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><D:/MiKTeX 2.
 9/fonts/type1/urw/times/utmr8a.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on project_report.pdf (8 pages, 320162 bytes).
+Output written on project_report.pdf (9 pages, 323905 bytes).
 PDF statistics:
- 452 PDF objects out of 1000 (max. 8388607)
- 101 named destinations out of 1000 (max. 500000)
+ 463 PDF objects out of 1000 (max. 8388607)
+ 104 named destinations out of 1000 (max. 500000)
  21663 words of extra memory for PDF output out of 24883 (max. 10000000)
 
