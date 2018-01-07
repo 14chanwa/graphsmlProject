@@ -63,6 +63,7 @@ for ell in P:
 
 plt.gca().set_aspect('equal', adjustable='box')
 plt.gca().axes.axis('off')
+plt.savefig("project_report\maze.eps", format="eps")
 plt.show()
 
 #Y, P = wilson_algorithm(W, 0.1)

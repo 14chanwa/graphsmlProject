@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.25)  7 JAN 2018 21:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.25)  7 JAN 2018 22:49
 entering extended mode
 **./project_report.tex
 (project_report.tex
@@ -508,31 +508,70 @@ Package microtype Info: Loading generic protrusion settings for font family
  [2]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 181.
  [3]
-<maze1.png, id=154, 373.395pt x 176.66pt>
-File: maze1.png Graphic file (type png)
- <use maze1.png>
-Package pdftex.def Info: maze1.png used on input line 228.
-(pdftex.def)             Requested size: 180.41835pt x 85.35826pt.
- <maze2.png, id=156, 373.395pt x 176.66pt>
-File: maze2.png Graphic file (type png)
- <use maze2.png>
-Package pdftex.def Info: maze2.png used on input line 229.
-(pdftex.def)             Requested size: 180.41835pt x 85.35826pt.
+Package epstopdf Info: Source file: <maze1.eps>
+(epstopdf)                    date: 2018-01-07 22:47:54
+(epstopdf)                    size: 26962 bytes
+(epstopdf)             Output file: <maze1-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-01-07 22:48:41
+(epstopdf)                    size: 4027 bytes
+(epstopdf)             Command: <epstopdf --outfile=maze1-eps-converted-to.pdf maze1.eps>
+(epstopdf)             \includegraphics on input line 228.
+Package epstopdf Info: Output file is already uptodate.
 
-<maze3.png, id=157, 373.395pt x 176.66pt>
-File: maze3.png Graphic file (type png)
- <use maze3.png>
-Package pdftex.def Info: maze3.png used on input line 230.
-(pdftex.def)             Requested size: 180.41835pt x 85.35826pt.
- <maze4.png, id=158, 373.395pt x 176.66pt>
-File: maze4.png Graphic file (type png)
- <use maze4.png>
-Package pdftex.def Info: maze4.png used on input line 231.
-(pdftex.def)             Requested size: 180.41835pt x 85.35826pt.
+<maze1-eps-converted-to.pdf, id=154, 433.62pt x 289.08pt>
+File: maze1-eps-converted-to.pdf Graphic file (type pdf)
+ <use maze1-eps-converted-to.pdf>
+Package pdftex.def Info: maze1-eps-converted-to.pdf used on input line 228.
+(pdftex.def)             Requested size: 185.9383pt x 85.35826pt.
+Package epstopdf Info: Source file: <maze2.eps>
+(epstopdf)                    date: 2018-01-07 22:48:07
+(epstopdf)                    size: 26930 bytes
+(epstopdf)             Output file: <maze2-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-01-07 22:48:42
+(epstopdf)                    size: 4043 bytes
+(epstopdf)             Command: <epstopdf --outfile=maze2-eps-converted-to.pdf maze2.eps>
+(epstopdf)             \includegraphics on input line 229.
+Package epstopdf Info: Output file is already uptodate.
 
-[4]
+<maze2-eps-converted-to.pdf, id=156, 433.62pt x 289.08pt>
+File: maze2-eps-converted-to.pdf Graphic file (type pdf)
+ <use maze2-eps-converted-to.pdf>
+Package pdftex.def Info: maze2-eps-converted-to.pdf used on input line 229.
+(pdftex.def)             Requested size: 185.9383pt x 85.35826pt.
+Package epstopdf Info: Source file: <maze3.eps>
+(epstopdf)                    date: 2018-01-07 22:48:16
+(epstopdf)                    size: 26957 bytes
+(epstopdf)             Output file: <maze3-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-01-07 22:48:43
+(epstopdf)                    size: 4031 bytes
+(epstopdf)             Command: <epstopdf --outfile=maze3-eps-converted-to.pdf maze3.eps>
+(epstopdf)             \includegraphics on input line 230.
+Package epstopdf Info: Output file is already uptodate.
+
+<maze3-eps-converted-to.pdf, id=158, 433.62pt x 289.08pt>
+File: maze3-eps-converted-to.pdf Graphic file (type pdf)
+ <use maze3-eps-converted-to.pdf>
+Package pdftex.def Info: maze3-eps-converted-to.pdf used on input line 230.
+(pdftex.def)             Requested size: 185.9383pt x 85.35826pt.
+Package epstopdf Info: Source file: <maze4.eps>
+(epstopdf)                    date: 2018-01-07 22:48:22
+(epstopdf)                    size: 26947 bytes
+(epstopdf)             Output file: <maze4-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-01-07 22:48:43
+(epstopdf)                    size: 4033 bytes
+(epstopdf)             Command: <epstopdf --outfile=maze4-eps-converted-to.pdf maze4.eps>
+(epstopdf)             \includegraphics on input line 231.
+Package epstopdf Info: Output file is already uptodate.
+
+<maze4-eps-converted-to.pdf, id=160, 433.62pt x 289.08pt>
+File: maze4-eps-converted-to.pdf Graphic file (type pdf)
+ <use maze4-eps-converted-to.pdf>
+Package pdftex.def Info: maze4-eps-converted-to.pdf used on input line 231.
+(pdftex.def)             Requested size: 185.9383pt x 85.35826pt.
+ [4]
 LaTeX Font Info:    Try loading font information for OMS+ptm on input line 274.
- ("D:\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
+
+("D:\MiKTeX 2.9\tex\latex\psnfss\omsptm.fd"
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
@@ -543,7 +582,8 @@ LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.312 \subsection
-                 [Sampling from Kq]{Sampling from $K_q$} <./maze1.png> <./maze2.png> <./maze3.png> <./maze4.png>]
+                 [Sampling from Kq]{Sampling from $K_q$} <./maze1-eps-converted-to.pdf> <./maze2-eps-converted-to.pdf> <
+./maze3-eps-converted-to.pdf> <./maze4-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <error_function_noise_Kk.eps>
 (epstopdf)                    date: 2018-01-07 12:04:28
 (epstopdf)                    size: 216291 bytes
@@ -555,7 +595,7 @@ Package epstopdf Info: Source file: <error_function_noise_Kk.eps>
 (epstopdf)             \includegraphics on input line 375.
 Package epstopdf Info: Output file is already uptodate.
 
-<error_function_noise_Kk-eps-converted-to.pdf, id=226, 433.62pt x 289.08pt>
+<error_function_noise_Kk-eps-converted-to.pdf, id=237, 433.62pt x 289.08pt>
 File: error_function_noise_Kk-eps-converted-to.pdf Graphic file (type pdf)
 
 <use error_function_noise_Kk-eps-converted-to.pdf>
@@ -584,7 +624,7 @@ Package epstopdf Info: Source file: <error_function_noise_Kq.eps>
 (epstopdf)             \includegraphics on input line 424.
 Package epstopdf Info: Output file is already uptodate.
 
-<error_function_noise_Kq-eps-converted-to.pdf, id=245, 433.62pt x 289.08pt>
+<error_function_noise_Kq-eps-converted-to.pdf, id=256, 433.62pt x 289.08pt>
 File: error_function_noise_Kq-eps-converted-to.pdf Graphic file (type pdf)
 
 <use error_function_noise_Kq-eps-converted-to.pdf>
@@ -614,7 +654,7 @@ nction_noise_Kq_unknown_Uk_m_3.eps>
 (epstopdf)             \includegraphics on input line 474.
 Package epstopdf Info: Output file is already uptodate.
 
-<error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf, id=307, 433.62pt x 289.08pt>
+<error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf, id=318, 433.62pt x 289.08pt>
 File: error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf>
@@ -631,7 +671,7 @@ nction_noise_Kq_unknown_Uk_m_8.eps>
 (epstopdf)             \includegraphics on input line 475.
 Package epstopdf Info: Output file is already uptodate.
 
-<error_function_noise_Kq_unknown_Uk_m_8-eps-converted-to.pdf, id=308, 433.62pt x 289.08pt>
+<error_function_noise_Kq_unknown_Uk_m_8-eps-converted-to.pdf, id=319, 433.62pt x 289.08pt>
 File: error_function_noise_Kq_unknown_Uk_m_8-eps-converted-to.pdf Graphic file (type pdf)
 
 <use error_function_noise_Kq_unknown_Uk_m_8-eps-converted-to.pdf>
@@ -676,9 +716,9 @@ Package rerunfilecheck Info: File `project_report.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 508.
  ) 
 Here is how much of TeX's memory you used:
- 9162 strings out of 493333
- 135371 string characters out of 3145222
- 271925 words of memory out of 3000000
+ 9161 strings out of 493333
+ 135639 string characters out of 3145222
+ 271924 words of memory out of 3000000
  12283 multiletter control sequences out of 15000+200000
  43814 words of font info for 151 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -694,9 +734,9 @@ amsfonts/cm/cmr10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><D
 /MiKTeX 2.9/fonts/type1/public/doublestroke/dsrom10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb><D
 :/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm7.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><D:/MiKTeX 2.
 9/fonts/type1/urw/times/utmr8a.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on project_report.pdf (10 pages, 374814 bytes).
+Output written on project_report.pdf (10 pages, 374657 bytes).
 PDF statistics:
- 533 PDF objects out of 1000 (max. 8388607)
+ 544 PDF objects out of 1000 (max. 8388607)
  109 named destinations out of 1000 (max. 500000)
- 21681 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 21705 words of extra memory for PDF output out of 24883 (max. 10000000)
 

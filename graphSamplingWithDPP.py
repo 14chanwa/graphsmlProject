@@ -307,7 +307,9 @@ def wilson_algorithm(W, q=0):
     
     Nu = np.zeros(n, dtype=bool)
     
+    walk_count = 0
     while np.sum(Nu) < n:
+        walk_count += 1
         
         # Select unvisited index
         walk_index = 0
@@ -373,7 +375,7 @@ def wilson_algorithm(W, q=0):
                 #print('case 3')
                 # Handle the case when this is the last node (happens when the
                 # entire graph is crossed in only one walk)
-                if sum(walk_indices) + sum(Nu) == n:
+                if sum(walk_indices) + sum(Nu) == n and walk_count == 1:
                     #print('case 3a')
                     for j in walk:
                         Nu[j] = 1
