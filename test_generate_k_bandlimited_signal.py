@@ -30,7 +30,7 @@ kgraph = 3          # Number of communities
 
 c = 16               # Average degree
 
-epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (k - 1))    # Critical epsilon
+epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (kgraph - 1))    # Critical epsilon
                     # above which one can no longer distinguish communities
 epsilon = 0.5 * epsilonc       # q2/q1
 

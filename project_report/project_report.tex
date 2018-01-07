@@ -148,18 +148,20 @@ Since $L$ and $W$ are sparse, we used functions from \verb#scipy.sparse# as much
 
 
 \paragraph{Function} \verb#generate_graph_from_stochastic_block_model#
+%\paragraph{Test file} \verb#test_generate_graph_from_stochastic_block_model.py#
 
 
 For benchmarks, we chose to use community-structured graphs using the Stochastic Block Model (SBM) as in \cite{tremblay2017}. Consider a graph with $k$ communities of cardinal $N/k$. An edge has a probability $q_1$ to be drawn between nodes $i$ and $j$ if they belong to the same community, and $q_2$ else. We can then parameterize the SBM with $N, k, q_1, q_2$, or alternatively with $N, k, \epsilon, c$ where $\epsilon = \frac{q_2}{q_1}$ and $c = q_1 \left( \frac{N}{k} - 1 \right) + q_2 \left(N - \frac{N}{k}\right)$ is the average degree of a node in the graph. One can also show that there is a critical value of $\epsilon$, $\epsilon_c = (c - \sqrt{c})/(c + \sqrt{c}(k-1))$ above which the community structure becomes undetectable for large $N$'s, so we can also use the ratio $\epsilon/\epsilon_c$ as a parameter.
 
 
-We used the Python library NetworkX \cite{hagberg2008} to generate $L$, $W$ and provide the necessary plot functions. 
+We used the Python library NetworkX \cite{hagberg2008} to generate $L$, $W$ and provide the necessary plot functions. We checked that our implementation is correct by computing the empirical $q_1$, $q_2$, $c$ on a very large graph ($N=50000$).
 
 
 \subsection[Generation of k-bandlimited signals]{Generation of $k$-bandlimited signals} \label{subsec:gen:k:bandlimited}
 
 
 \paragraph{Function} \verb#generate_k_bandlimited_signal#
+%\paragraph{Test file} \verb#test_generate_k_bandlimited_signal.py#
 
 
 In order to generate a $k$-bandlimited signal, we must compute $U_k$ and take a linear combination of these vectors as in \eqref{eq:bandlimited}. This is equivalent to compute the $k$ lowest eigenmodes of the Laplacian matrix $L$. Even though we could use the function \verb#numpy.linalg.eigh# directly, we chose to use functions that scale better with $N$. The function \verb#scipy.sparse.eigh# uses a routine that enables to compute some eigenmodes from a sparse matrix. It is more efficient to compute the largest eigenmodes than the lowest ; we make use of the \emph{shift-inverse} mode\footnote{See: \url{https://docs.scipy.org/doc/scipy/reference/tutorial/arpack.html}} of this function in order to compute the lowest eigenmodes of $L$ by computing the largest eigenmodes of a dual problem.
@@ -214,7 +216,7 @@ In order to use this algorithm on $K_k$, we must be able to compute at least the
 
 
 \paragraph{Functions} \verb#wilson_algorithm#, \verb#generate_maze#
-\paragraph{Test file} \verb#test_generate_maze.py#
+%\paragraph{Test file} \verb#test_generate_maze.py#
 
 
 This is the main contribution of \cite{tremblay2017} ; in order to avoid computing $K_k$ (and thus $U_k$), the author uses an approximation $K_q$ and gives an algorithm capable of sampling from the DPP of marginal kernel $K_q$ without explicitely computing the kernel. This algorithm is based on a modified version of Propp-Wilson's algorithm \cite{propp1998}. 

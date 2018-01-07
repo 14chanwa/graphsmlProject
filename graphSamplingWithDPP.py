@@ -45,30 +45,42 @@ def generate_graph_from_stochastic_block_model(N, k, epsilon, c):
     
     q1 = c / ((N/k - 1) + epsilon * (N - N/k))
     q2 = epsilon * q1
-    #print('q1=', q1)
-    #print('q2=', q2)
     
     G = nx.Graph()
     G.add_nodes_from(range(0, N))
     
     # Community indices
-    #step = N/k
-    #indices = np.floor(np.arange(N)/step).astype(np.int)
-    #print(indices)
     div, mod = divmod(N, k)
     indices = np.repeat(np.arange(k), [div+1 if i<mod else div for i in \
                         range(k)])
     
     # Build edges
     L = []      # edges list
-    for i in range(0, N):
-        for j in range(i+1, N):
-            if indices[i] == indices[j]:
-                if np.random.rand() < q1:
-                    L.append((i, j))
-            else:
-                if np.random.rand() < q2:
-                    L.append((i, j))
+    for i in range(0, N-1):
+        # Get same community indicator
+        indices_comparison = (indices[i] == indices[i+1:N])
+        # Generate random numbers
+        indices_rand = np.random.rand(len(indices_comparison))
+        
+        # Comparison thresholds (q1 same community, q2 else)
+        comparison_threshold = q2 * np.ones(indices_comparison.shape)
+        comparison_threshold[indices_comparison] = q1
+        
+        # Draw an edge if rand < threshold
+        edge_indices = i+1 + np.where(indices_rand < comparison_threshold)[0]
+        if len(edge_indices) > 0:
+            tmp = i * np.ones((edge_indices.shape[0], 2), dtype="int")
+            tmp[:, 1] = edge_indices
+            L += list(map(tuple, tmp))
+        
+#        # Or we could make a double loop
+#        for j in range(i+1, N):
+#            if indices[i] == indices[j]:
+#                if np.random.rand() < q1:
+#                    L.append((i, j))
+#            else:
+#                if np.random.rand() < q2:
+#                    L.append((i, j))
     
     G.add_edges_from(L)
     
@@ -156,7 +168,6 @@ def sample_from_DPP(Lambda, V):
     J = np.random.rand(len(Lambda)) < Lambda
     
     # Select eigenvectors from indices
-    #    Vcal = np.real(V[:, J])
     Vcal = V[:, J]
     Ycal = list()
     
@@ -167,22 +178,7 @@ def sample_from_DPP(Lambda, V):
         P = P / Vcal.shape[1]
         index = np.random.choice(N, p=P)
         Ycal.append(index)
-#        
-#        if Vcal.shape[1] > 1:     
-#            # Make V an orthonormal basis of V orthogonal to e_index using 
-#            # Gram-Schmidt algorithm
-#            Vnew = np.zeros(Vcal.shape)
-#            # First base vector: sampled node
-#            Vnew[index, 0] = 1
-#            for j in range(1, Vcal.shape[1]):
-#                u = Vcal[:, j]
-#                for k in range(j):
-#                    u -= Vcal[:, j].dot(Vnew[:, k]) * Vnew[:, k]
-#                Vnew[:, j] = u / np.linalg.norm(u)
-#            # Only keep the orthogonal to the first vector
-#            Vcal = Vnew[:, 1:Vcal.shape[1]]
-#        else:
-#            break
+        
 
         if Vcal.shape[1] > 1:
             # Find Vcal[:, j] that is a linear combination of e_index
@@ -257,7 +253,6 @@ def estimate_pi(L, q, d, n):
         Lpow = Lpow.dot(LT)
         SR = SR + beta[ell] * Lpow
     SR = SR.dot(R)
-    # print(SR.shape)
         
     # Compute pi
     # Elevate to square
@@ -265,7 +260,7 @@ def estimate_pi(L, q, d, n):
     # Sum over rows
     pi = SR.sum(axis = 1) 
     
-    return pi #, beta
+    return pi
 
 
 def wilson_algorithm(W, q=0):
@@ -312,12 +307,7 @@ def wilson_algorithm(W, q=0):
         walk_count += 1
         
         # Select unvisited index
-        walk_index = 0
-        for j in range(0, n):
-            if not Nu[j]:
-                walk_index = j
-                #Nu[j] = 1
-                break
+        walk_index = np.where(np.invert(Nu))[0][0]
         
         # Start a random walk starting from node index
         # Keep indices in a list and in a boolean vector (for commodity)
@@ -335,15 +325,13 @@ def wilson_algorithm(W, q=0):
             # Add the sink probability to position walk_index
             transition_probabilities[walk_index] = 0
             normalization_weight = np.sum(transition_probabilities) + q
-
             transition_probabilities[walk_index] = q
             
             # If the probability transition is null (case q = 0 and leaf of the
             # graph), finish
             if normalization_weight == 0 or normalization_weight == 0:
                 #print('case 0')
-                for j in walk:
-                    Nu[j] = 1
+                Nu[walk] = 1
                 P.append(walk)
                 break
             
@@ -356,16 +344,14 @@ def wilson_algorithm(W, q=0):
             if next_index == walk_index:
                 #print('case 1')
                 Y.append(walk_index)
-                for j in walk:
-                    Nu[j] = 1
+                Nu[walk] = 1
                 P.append(walk)
                 break
             
             # If we end in a node in Nu, add path to Nu and quit
             elif Nu[next_index]:
                 #print('case 2')
-                for j in walk:
-                    Nu[j] = 1
+                Nu[walk] = 1
                 walk.append(next_index)
                 P.append(walk)
                 break
@@ -377,8 +363,7 @@ def wilson_algorithm(W, q=0):
                 # entire graph is crossed in only one walk)
                 if sum(walk_indices) + sum(Nu) == n and walk_count == 1:
                     #print('case 3a')
-                    for j in walk:
-                        Nu[j] = 1
+                    Nu[walk] = 1
                     P.append(walk)
                     break
                 #print('case 3b')
@@ -538,7 +523,7 @@ def reweighted_recovery_with_eigendec(L, pi, M, y, Uk):
     
     # OR
     
-    # Gradient descent (to do)
+    # Gradient descent (TO DO)
     
     return Uk.dot(alpha)
 

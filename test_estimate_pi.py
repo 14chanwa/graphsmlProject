@@ -44,7 +44,7 @@ kgraph = 2          # Number of communities
 
 c = 8               # Average degree
 
-epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (k - 1))
+epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (kgraph - 1))
 epsilon = 1 * epsilonc       # q2/q1
 
 ### Number of measurements
