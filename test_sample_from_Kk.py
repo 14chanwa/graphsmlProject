@@ -113,38 +113,3 @@ print('Empirical proba=', pair2_count / n_iterations)
 print('------- Norms:')
 print('mean np.linalg.norm(x)**2=', np.linalg.norm(x)**2)
 print('mean np.linalg.norm(Pm12.dot(M).dot(x))**2=', np.mean(sq_norms))
-
-
-## Number of iterations
-#n_iterations = 20000
-#singleton_count= 0
-#pair_count = 0
-#
-#print('n_iterations=', n_iterations)
-#
-#for i in range(n_iterations):
-#    # Sample from DPP
-#    Ycal = sample_from_DPP(eigenvalues, eigenvectors)
-#    if len(Ycal) != k:
-#        print('Anormaly detected: size ', len(Ycal), '!=', k)
-#    
-#    if np.in1d(singleton, np.array(Ycal)).all():
-#        singleton_count += 1
-#    if np.in1d(pair, np.array(Ycal)).all():
-#        pair_count += 1
-#        
-#    Pm12 = np.diag(1 / np.sqrt(np.diagonal(K_k)[Ycal]))
-#    M = np.zeros((len(Ycal), N))
-#    M[np.arange(len(Ycal)), Ycal] = 1
-#    sq_norms.append(np.linalg.norm(Pm12.dot(M).dot(x))**2)
-#    
-#    
-#print('------- Singleton:')
-#print('Theoretical proba=', K_k[singleton, singleton])
-#print('Empirical proba=', singleton_count / n_iterations)
-#print('------- Pair:')
-#print('Theoretical proba=', np.linalg.det((K_k[:, pair])[pair, :]))
-#print('Empirical proba=', pair_count / n_iterations)
-#print('------- Norms:')
-#print('x sqnorm=', np.linalg.norm(x)**2)
-#print('DPP sqnorm=', np.mean(sq_norms))

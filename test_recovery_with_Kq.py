@@ -42,12 +42,6 @@ m = 2 # should be >= k
 initial_q = 0.2             # Will be adapted if the size of the sampled DPP
                     # is not large enough.
 
-# Recovery parameters
-d = 20
-n = 10 * int(np.floor(20 * np.log(N)))
-gamma = 1e-5
-r = 4
-
 # Noise levels
 noise_sigma = np.array([1e-6, 1e-5, 1e-4, 1e-3, 1e-2])
 
@@ -64,28 +58,6 @@ W = sp.sparse.csr_matrix(nx.adjacency_matrix(G), dtype='d')
 
 # Generate a k-bandlimited signal
 x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
-
-
-
-## Sample the signal
-#M = sp.sparse.lil_matrix((len(Y), N))
-#M[np.arange(len(Y)), Y] = 1
-#M = M.tocsr()
-#
-## Measurement + noise
-#y = M.dot(x)
-#y += np.random.normal(0, 10e-4, size=y.shape)
-
-# Recover the signal
-
-# Estimate pi using fast graph filtering
-#pi = estimate_pi(L, q, d, n)
-
-## OR
-
-
-
-#pi_sample = pi[Y]
 
 
 # Number of different graphs
@@ -105,7 +77,6 @@ for j in range(nb_graphs):
 
     # Generate graph
     G = generate_graph_from_stochastic_block_model(N, kgraph, epsilon, c)
-    #    print('Number of CCs=', nx.number_connected_components(G))
     
     # Get laplacian and adjacency matrix
     L = sp.sparse.csr_matrix(nx.laplacian_matrix(G), dtype='d')
@@ -119,7 +90,7 @@ for j in range(nb_graphs):
     # On some random forests with determinantal roots, L. Avena, A. Gaudillère
     Y = []
     q = initial_q
-    while len(Y) < m:
+    while len(Y) < k or m - 2 * np.sqrt(m) > len(Y) or m + 2 * np.sqrt(m) < len(Y):
         if len(Y) > 0:
             q = q * m / len(Y)
         Y = wilson_algorithm(W, q)[0]
@@ -155,19 +126,15 @@ for j in range(nb_graphs):
             nl = noise_sigma[noise_index]
             y += np.random.normal(0, nl, size=y.shape)
             
-            # Recovery with unknown U_k
-    #        xrec2 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
             
-    #        # Recovery with known U_k
-            xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
+            # Recovery with known U_k
+            xrec = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
             
-            if np.linalg.norm(x-xrec2) > 1:
-                print('--- anormaly detected, normdiff=', np.linalg.norm(x-xrec2))
+            if np.linalg.norm(x-xrec) > 1:
+                print('--- anormaly detected, normdiff=', np.linalg.norm(x-xrec))
                 print('Y=', Y)
-    #            print('x=', x)
-    #            print('xrec=', xrec2)
             
-            results_known_Uk[noise_index].append(np.linalg.norm(x-xrec2))
+            results_known_Uk[noise_index].append(np.linalg.norm(x-xrec))
 
 #%%
 error_means = np.zeros(len(noise_sigma))
@@ -183,8 +150,7 @@ for noise_index in range(len(noise_sigma)):
     percentiles = np.percentile(results_known_Uk[noise_index], [50, 10, 90])
     print(percentiles)
     print('max difference norm=', np.max(results_known_Uk[noise_index]))
-#    print('expected noise norm=', np.linalg.norm(np.random.normal(0, \
-#                                            noise_sigma, size=k)))
+
     error_means[noise_index] = percentiles[0]
     error_bars[0, noise_index] = percentiles[0] - percentiles[1]
     error_bars[1, noise_index] = percentiles[2] - percentiles[0]
@@ -200,91 +166,3 @@ ax.set_xlabel('Noise $\sigma$')
 ax.set_title('Error in function of the noise using $K_q$ ($\epsilon=0.1*\epsilon_c$)')
 plt.savefig("project_report\error_function_noise_Kq.eps", format="eps")
 plt.show()
-
-
-## Results
-#results_known_Uk = list()
-#
-#for j in range(nb_graphs):
-#
-#    # Generate graph
-#    G = generate_graph_from_stochastic_block_model(N, kgraph, epsilon, c)
-#    #    print('Number of CCs=', nx.number_connected_components(G))
-#    
-#    # Get laplacian and adjacency matrix
-#    L = sp.sparse.csr_matrix(nx.laplacian_matrix(G), dtype='d')
-#    W = sp.sparse.csr_matrix(nx.adjacency_matrix(G), dtype='d')
-#    
-#    # Sample m nodes from a DPP
-#    # Adapt q using a heuristic from
-#    # On some random forests with determinantal roots, L. Avena, A. Gaudillère
-#    Y = []
-#    q = initial_q
-#    while len(Y) < m:
-#        if len(Y) > 0:
-#            q = q * m / len(Y)
-#        Y = wilson_algorithm(W, q)[0]
-#        print('Attempting to sample m nodes... q=', q)
-#        print('Size of the sample=', len(Y))
-#    Y.sort()
-#    print('Sampled DPP=', Y)
-#    
-#    # Theoretical pi using eigendecomposition
-#    A = L.toarray()
-#    V, U = np.linalg.eigh(A)
-#    g = q/(q+V)
-#    gdiag = np.diag(g)
-#    Kq = U.dot(gdiag).dot(U.transpose())
-#    pi = np.diagonal(Kq)
-#    
-#    pi_sample = pi[Y]
-#    
-#    for i in range(nb_signals):
-#    
-#        # Generate a k-bandlimited signal
-#        x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
-#        
-#        # Sample the signal
-#        M = sp.sparse.lil_matrix((len(Y), N))
-#        M[np.arange(len(Y)), Y] = 1
-#        M = M.tocsr()
-#        
-#        # Measurement + noise
-#        y = M.dot(x)
-##        y += np.random.normal(0, noise_sigma, size=y.shape)
-#        
-#        # Recovery with unknown U_k
-##        xrec2 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
-#        
-##        # Recovery with known U_k
-#        xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
-#        
-#        if np.linalg.norm(x-xrec2) > 1:
-#            print('--- anormaly detected, normdiff=', np.linalg.norm(x-xrec2))
-#            print('Y=', Y)
-##            print('x=', x)
-##            print('xrec=', xrec2)
-#        
-#        results_known_Uk.append(np.linalg.norm(x-xrec2))
-#    
-#print('--- Recovery with known Uk ---')
-#print('10, 50, 90 quantiles difference norm=')
-#print(np.percentile(results_known_Uk, [10, 50, 90]))
-#print('max difference norm=', np.max(results_known_Uk))
-#print('expected noise norm=', np.linalg.norm(np.random.normal(0, noise_sigma,\
-#                                                              size=k)))
-
-
-## Recovery with unknown U_k
-#xrec1 = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
-#
-## Recovery with known U_k
-#xrec2 = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
-#
-##print('x=', x)
-#print('--- Recovery without Uk ---')
-##print('xrec1=', xrec1)
-#print('difference norm1=', np.linalg.norm(x-xrec1))
-#print('--- Recovery with known Uk ---')
-##print('xrec2=', xrec2)
-#print('difference norm2=', np.linalg.norm(x-xrec2))

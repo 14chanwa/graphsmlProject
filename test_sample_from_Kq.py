@@ -93,9 +93,6 @@ print('n_iterations=', n_iterations)
 for i in range(n_iterations):
     # Sample from DPP
     Ycal = wilson_algorithm(W, q)[0]
-    #    print('Ycal=', Ycal)
-    #    print(np.in1d(singleton, np.array(Ycal)))
-    #    print(np.in1d(pair, np.array(Ycal)))
     
     if np.in1d(singleton, np.array(Ycal)).all():
         singleton_count += 1

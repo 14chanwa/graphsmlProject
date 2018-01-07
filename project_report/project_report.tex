@@ -80,14 +80,14 @@ Sampling consists in choosing $m$ nodes among $N$ and measuring the signal on th
 where $\mathcal{N} \in \R^m$ is a measurement noise. In the following, we assume $\mathcal{N}$ is gaussian: $\mathcal{N}_i \sim \mathcal{N}(0, \sigma)$.
 
 
-One can show that if $x$ is a $k$-bandlimited signal, then one can hope to reconstruct $x$ if $m \geq k$. The difficulty of the sampling theory is, given a measurement budget $m$, to find $\mathcal{A}$ such that $\abs{\mathcal{A}} = m$ and we can invert \eqref{eq:measurement} so as to reconstruct exactly $x$ from $y$. A sufficient condition for this to be true if $\mathcal{N} \equiv 0$ is that 
+One shows that if $x$ is a $k$-bandlimited signal, then one can hope to reconstruct $x$ only if $m \geq k$. The goal of the sampling theory is, given a measurement budget $m$, to find $\mathcal{A}$ so that $\abs{\mathcal{A}} = m$ and we can invert \eqref{eq:measurement} so as to reconstruct exactly $x$ from $y$. A sufficient condition for this to be true if $\mathcal{N} \equiv 0$ is that 
 \begin{align} \text{$MU_k$ has its smallest singular value $\sigma_1 > 0$.} \label{eq:sufficientconditionreconstruction}\end{align}
 
 
 \subsection{Reconstruction with determinantal point processes on graphs}
 
 
-The \emph{determinantal point processes} (DPP) \cite{kuelsza2012} are tools that are very useful in this situation, since they enable to sample points in $\left\{ 1, \cdots, N\right\}$ with some negative correlation between the occurences of points that are ``close'' to each other, that is ``close'' points will be less likely to be sampled together. In other terms, sampling from a DPP ensures the diversity of the sample.
+\emph{Determinantal point processes} (DPP) \cite{kuelsza2012} are tools that are very useful in this situation, since they sample points in $\left\{ 1, \cdots, N\right\}$ with some negative correlation between points that are ``close'' to each other, that is ``close'' points will be less likely to be sampled together. In other terms, sampling from a DPP ensures the diversity of the sample.
 
 
 In our case, if $\left\{ 1, \cdots, N\right\}$ are the nodes of the graph, the random variable $\mathcal{A}$ from a DPP of \emph{marginal kernel} $K \in \R^{N \times N}$ verifies
@@ -95,7 +95,7 @@ In our case, if $\left\{ 1, \cdots, N\right\}$ are the nodes of the graph, the r
 where $K_\mathcal{S}$ is the submatrix of $K$ with lines and columns indices in $\mathcal{S}$.
 
 
-When sampling the measurement nodes, if $x_1$ and $x_2$ are two graph signals, we want to ensure that $\norm{x_1 - x_2} > 0 \implies \norm{y_1 - y_2} > 0$. One way to ensure this is to reweight the measurement with a given matrix such that the norm of the reweighted measurement is close to the norm of the original vector. More specifically, if $\mathcal{A} = (\omega_1, \cdots, \omega_m)$, we define $P = \mathrm{diag}(\pi_{\omega_1}, \cdots, \pi_{\omega_m})$, and we have:
+When sampling the measurement nodes, if $x_1$ and $x_2$ are two graph signals, we want to ensure that $\norm{x_1 - x_2} > 0 \implies \norm{y_1 - y_2} > 0$. One way to achieve this result is to reweight the measurement with a matrix such that the norm of the reweighted measurement is close to the norm of the original vector. If $\mathcal{A} = (\omega_1, \cdots, \omega_m)$, we define $P = \mathrm{diag}(\pi_{\omega_1}, \cdots, \pi_{\omega_m})$, and we have:
 \begin{align} \mathbb{E}_\mathcal{A} \left( \norm{P^{-\frac{1}{2}} M x}^2 \right) = \norm{x}^2. \label{eq:esp_reweighted_norm}\end{align}
 Thus, if we know the spanning eigenspace $U_k$, we can write the reconstruction problem as:
 \begin{align*} x_{\text{rec}} &= \mathrm{argmin}_{z \in \mathrm{span}(U_k)} \norm{P^{-\frac{1}{2}} \left( M z - y \right)}^2 \\
@@ -104,44 +104,44 @@ Thus, if we know the spanning eigenspace $U_k$, we can write the reconstruction 
 In order to use the last formula, we must compute the inverse of an $N \times N$ matrix, which might be unfeasible if $N$ is large. One could then use other methods, such as gradient descent.
 
 
-The next step is then to find some marginal kernel $K$ such that $x_\text{rec} = x$ with \eqref{eq:reconstruction:dpp}. We can show that if we use the kernel 
+The next step is then to find some marginal kernel $K$ so that sampling $\mathcal{A}$ from a DPP of marginal kernel $K$ (and defining the corresponding measurement matrix $M$ accordingly) ensures $x_\text{rec} = x$ with \eqref{eq:reconstruction:dpp}. We can show that if we use the kernel 
 \begin{align} \boxed{K_k = U_k U_k^\top}, \label{eq:def:Kk}\end{align}
-then any sample $\mathcal{A}$ from this DPP verifies $\abs{\mathcal{A}} = k$ a.s., \eqref{eq:sufficientconditionreconstruction} and thus perfect reconstruction can be achieved if there is no noise.
+then any sample $\mathcal{A}$ from this DPP verifies $\abs{\mathcal{A}} = k$ a.s., \eqref{eq:sufficientconditionreconstruction} and perfect reconstruction can be achieved if there is no noise.
 
 
 \subsection[Reconstruction with unknown Uk using DPPs]{Reconstruction with unknown $U_k$ using DPPs}
 
 
-In the preceding sections, we assumed $U_k$ was known. It is possible, if $N$ is very large, that the computation of $U_k$ is unfeasible ; in this situation, we can not use the DPP given by $K_k$. A possible substitute is to consider the kernel:
+In the preceding sections, we assumed $U_k$ was known. It is possible that if $N$ is very large, the computation of $U_k$ becomes infeasible ; in this situation, we can not use the DPP given by $K_k$. A possible substitute is the kernel:
 \begin{align} \boxed{K_q = U g_q(\Lambda) U^\top} \label{eq:def:Kq}\end{align}
-where $q > 0$ and $g_q(\lambda) = \frac{q}{q + \lambda}$. We can note that this is in fact an approximation of the kernel $K_k = U_k U_k^\top = U h_k(\Lambda) U^\top$ where $h_k(\lambda) = \mathds{1}_{\lambda \leq \lambda_k} (\lambda)$. Moreover, there exists an Algorithm that enables sampling from the DPP of marginal kernel $K_q$ without having to compute explicitely $K_q$, which makes this DPP particularly interesting.
+where $q > 0$ and $g_q(\lambda) = \frac{q}{q + \lambda}$. This is in fact an approximation of the kernel $K_k = U_k U_k^\top = U h_k(\Lambda) U^\top$ where $h_k(\lambda) = \mathds{1}_{\lambda \leq \lambda_k} (\lambda)$. Moreover, there exists an Algorithm that enables sampling from the DPP of marginal kernel $K_q$ without having to compute explicitely $K_q$, which makes this DPP particularly interesting (see Subsection \ref{subs:sampling:wilson}).
 
 
-In this case, we do not know explicitely $U_k$ so we can not use the direct reconstruction formula \eqref{eq:reconstruction:dpp}. Instead, we can use a regularized version of this formula that penalizes high frequencies:
+If we do not know explicitely $U_k$, we can not use the direct reconstruction formula \eqref{eq:reconstruction:dpp}. Instead, we can use a regularized version of this formula that penalizes high frequencies:
 \begin{align} \boxed{x_{\text{rec}} = \mathrm{argmin}_{z \in \R^N} \norm{P^{-\frac{1}{2}} \left( M z - y \right)}^2 + \gamma z^\top L^r z} \label{eq:reconstruction:dpp:unknown}\end{align}
 where $\gamma > 0$, $r > 0$ are regularization parameters.
 
 \section{Implementation details}
 
 
-This project was mainly focused on implementation and experimentation. We used Python to implement the main algorithms. The code can be found here:
+This project was focused on implementation and experimentation. We used Python to implement the main algorithms. The code can be found here:
 \begin{center}
   \url{https://github.com/14chanwa/graphsmlProject}
 \end{center}
 
 
-As we explained in the preceding section, our work decomposes in the following parts:
+Our work decomposes in the following parts:
 \begin{enumerate}
 \item Generation of some graphs for benchmarking. We chose to work with community-structured graphs, as in \cite{tremblay2017}.
 \item Generation of $k$-bandlimited signals as in \eqref{eq:bandlimited}.
 \item Sampling DPPs with marginal kernel $K_k$ as in \eqref{eq:def:Kk}.
-\item Sampling DPPs with marginal kernel $K_k$ as in \eqref{eq:def:Kq}.
+\item Sampling DPPs with marginal kernel $K_q$ as in \eqref{eq:def:Kq}.
 \item Reconstruct $x$ from $y$ as in \eqref{eq:measurement} using the formula with known $U_k$ \eqref{eq:reconstruction:dpp}.
 \item Reconstruct $x$ from $y$ as in \eqref{eq:measurement} using the formula without $U_k$ \eqref{eq:reconstruction:dpp:unknown}.
 \end{enumerate}
 
 
-Since $L$ and $W$ are sparse, we used functions from \verb#scipy.sparse# as much as possible, for our implementation to scale well with $N$.
+Since $L$ and $W$ are sparse, we used functions from \verb#scipy.sparse# as much as possible, for our implementation to scale with $N$.
 
 
 \subsection{Random graph generation} \label{subs:random_graph_generation}
@@ -207,10 +207,10 @@ Our version of this algorithm is presented in Algorithm \ref{alg:sampling_dpp_fr
 
 
 
-In order to use this algorithm on $K_k$, we must be able to compute at least the $k$ first eigenmodes of $K_k$ (since the other eigenvalues of $K_k$ are null, we do not make use of the corresponding eigenmodes) ; we could use the same technique as in Subsection \ref{subsec:gen:k:bandlimited}.%, but in order to keep the algorithm generic, we chose to use the regular function \verb#numpy.linalg.eigh# in this case.
+In order to use this algorithm on $K_k$, we must be able to compute at least the $k$ first eigenmodes of $K_k$ (since the other eigenvalues of $K_k$ are null, we do not use the corresponding eigenmodes) ; we could use the same technique as in Subsection \ref{subsec:gen:k:bandlimited}, but in this case the matrix is dense, so we might as well use \verb#numpy#.%, but in order to keep the algorithm generic, we chose to use the regular function \verb#numpy.linalg.eigh# in this case.
 
 
-\subsection[Sampling DPPs with marginal kernel Kq (Wilson's algorithm)]{Sampling DPPs with marginal kernel $K_q$ (Wilson's algorithm)}
+\subsection[Sampling DPPs with marginal kernel Kq (Wilson's algorithm)]{Sampling DPPs with marginal kernel $K_q$ (Wilson's algorithm)} \label{subs:sampling:wilson}
 
 
 \paragraph{Functions} \verb#wilson_algorithm#, \verb#generate_maze#
@@ -220,7 +220,7 @@ In order to use this algorithm on $K_k$, we must be able to compute at least the
 This is the main contribution of \cite{tremblay2017} ; in order to avoid computing $K_k$ (and thus $U_k$), the author uses an approximation $K_q$ and gives an algorithm capable of sampling from the DPP of marginal kernel $K_q$ without explicitely computing the kernel. This algorithm is based on a modified version of Propp-Wilson's algorithm \cite{propp1998}. 
 
 
-Originally, this algorithm samples a random spanning tree of a given directed graph. A recreational application of this algorithm is random maze generation: consider a graph composed of nodes on a grid, plus a node that will represent the border of the maze. The walls will be lines connecting these nodes: consider then the appropriate edges of this graph (two nodes are connected if they are adjacent, the border node is connected to all nodes in the border). Then when sampling a random spanning tree on this graph, one samples the walls of a maze such that there is one and only one way from one corridor to the other that do not imply turning back. We implemented this random maze generation in order to make sure our algorithm works, as presented in Figure \ref{fig:randommazes}.
+Originally, this algorithm samples a random spanning tree on a given directed graph. A recreational application of this algorithm is random maze generation: consider a graph composed of nodes on a grid, plus a node that represents the border of the maze. The walls will consist in lines connecting these nodes: consider then the appropriate edges in this graph (two nodes are connected if they are adjacent, the border node is connected to all nodes in the border). Then when sampling a random spanning tree on this graph, one samples the walls of a maze such that there is one and only one way from one corridor to the other that do not imply turning back. We implemented this random maze generation in order to make sure our algorithm works, as presented in Figure \ref{fig:randommazes}.
 
 
 \begin{figure}[ht]
@@ -233,7 +233,7 @@ Originally, this algorithm samples a random spanning tree of a given directed gr
 \end{figure}
 
 
-The original algorithm works using loop-erased random walks in the graph until all nodes have been visited. In \cite{tremblay2017}, we modify the algorithm so that it samples nodes from the graph by adding a sink node. At each step of the random walks, the walker has some probability depending on a parameter $q$ to go to the sink: the last visited node is then part of the sample. This algorithm is presented in Algorithm \ref{alg:wilson_algorithm}.
+The original algorithm works using loop-erased random walks in the graph until all nodes have been visited. In \cite{tremblay2017}, the author modifies the algorithm so that it samples nodes from the graph by adding a sink node. At each step of the random walks, the walker has some probability depending on a parameter $q$ to go to the sink: the last visited node is then part of the sample. This algorithm is presented in Algorithm \ref{alg:wilson_algorithm}.
 
 
 \begin{algorithm}[ht]
@@ -259,6 +259,7 @@ Note: our implementation also saves the sampled spanning tree. In the case $q = 
 \end{algorithm}
 
 
+\newpage
 \section{Results}
 
 
@@ -363,7 +364,7 @@ We thus confirm that our algorithm samples the right DPP.
 
 In the following we choose $N=100$, $k=2$, $c=16$, $\epsilon = 0.1 \times \epsilon_c$. We use the DPP of marginal kernel $K_k$ to sample $k$ measurement nodes, compute exactly $P$ by using the diagonal of $K_k$ and use the perfect reconstruction formula \eqref{eq:reconstruction:dpp}. The article presents the influence of $\epsilon$ on the reconstruction error ; we chose to compute the influence of the noise standard deviation $\sigma$ of the noise $\mathcal{N}$ on the reconstruction error, where
 \[ y = Mx + \mathcal{N}. \] 
-We generate $100$ graphs using the preceding parameters, and on each graph we generate $100$ $k$-bandlimited signals. On each graph, we sample $k$ measurement nodes and on each signal, we add $\mathcal{N}$ with a given $\sigma$. We then compute the reconstruction error.
+We generate $100$ graphs using the preceding parameters, and on each graph we generate $100$ $k$-bandlimited signals. On each graph, we sample $k$ measurement nodes and on each signal, we add $\mathcal{N}$ with a given $\sigma$. We then compute the reconstruction error on the signals (using the same DPP sample).
 
 
 When $\mathcal{N} \equiv 0$, our algorithm reconstructs the signal perfectly, up to the machine precision (the mean error is $\sim 10^{-15}$, the max error is $\sim 10^{-8}$). When we increase $\sigma$, the reconstruction error increases. The results are presented in Figure \ref{fig:Kk:recerror}.
@@ -371,7 +372,7 @@ When $\mathcal{N} \equiv 0$, our algorithm reconstructs the signal perfectly, up
 
 \begin{figure}[ht]
 \centering
-\includegraphics[height=8cm]{error_function_noise_Kk.eps}
+\includegraphics[height=6cm]{error_function_noise_Kk.eps}
 \caption{Influence of $\sigma$ on the reconstruction error (DPP of marginal kernel $K_k$, reconstruction using \eqref{eq:reconstruction:dpp}). The error bars are the $10^\text{th}$ and $90^\text{th}$ percentiles.} \label{fig:Kk:recerror}
 \end{figure}
 
@@ -406,10 +407,10 @@ We note that there are rare cases in which our reconstruction algorithm fails sp
 \paragraph{Test file} \verb#test_recovery_with_Kq.py#
 
 
-In this section, we still assume $U_k$ is known. The kernel $K_q$ is build so as to be an approximation of $K_k$. This enables us to sample from $K_q$ without having to explicitely compute $K_q$. We thus try to use the sampling algorithm with $K_q$ to choose the measurement nodes and reconstruct the signal using \eqref{eq:reconstruction:dpp} just as in the preceding section. We use the parameters $N=100$, $k=2$, $c=16$, $\epsilon = 0.1 \times \epsilon_c$ and sample 100 graphs and 100 signals on each graph, then add the corresponding noise levels.
+In this section, we still assume $U_k$ is known. The kernel $K_q$ is build so as to be an approximation of $K_k$. This enables us to sample from $K_q$ without having to explicitely compute $K_q$. We thus use the sampling algorithm with $K_q$ to select the measurement nodes and reconstruct the signal using \eqref{eq:reconstruction:dpp} just as in the preceding Subsection. We use the parameters $N=100$, $k=2$, $c=16$, $\epsilon = 0.1 \times \epsilon_c$ and sample 100 graphs and 100 signals on each graph, then add the corresponding noise levels.
 
 
-We can not set a specific cardinal for the samples of our DPP with kernel $K_q$ ; it depends on a parameter $q$. We chose to fix and initial $q_\text{init}=0.2$ and increase $q$ if the sample is of size $m < k$ with the algorithm suggested in \cite{avena2013}. In our tests, the mean cardinal of our sample is $3.11$. 
+We can not set a specific cardinal for the samples of our DPP with kernel $K_q$ ; it depends on a parameter $q$. We chose to fix and initial $q_\text{init}=0.2$ and a desired cardinal $m_\text{des}$ and increase $q$ if $m - \sqrt{m} > m_\text{des}$ or decrease $q$ if $m + \sqrt{m} < m_\text{des}$ with the algorithm suggested in \cite{avena2013}. In our tests, the mean cardinal of our sample is $3.11$ (with $m_\text{des} = 2$). 
 
 
 The results are presented in Figure \ref{fig:Kq:recerror}. We see that the reconstruction noise is comparable to the algorithm sampling from $K_k$. This means that $K_q$ is effectively a good approximation of $K_k$. We could argue that this comparison might be unfair since the mean cardinal of our sample is $3.11 > k = 2$ ; yet the algorithm $K_k$ can not produce samples of size $\neq k$, whereas in Wilson's algorithm we can set the expected sample size with the parameter $q$, that makes this algorithm more adaptable. 
@@ -420,13 +421,13 @@ Similarly, there are cases in which the algorithm fails spectacularly, as presen
 
 \begin{figure}[ht]
 \centering
-\includegraphics[height=8cm]{error_function_noise_Kq.eps}
-\caption{Influence of $\sigma$ on the reconstruction error (DPP of marginal kernel $K_q$, reconstruction using \eqref{eq:reconstruction:dpp}). The error bars are the $10^\text{th}$ and $90^\text{th}$ percentiles.} \label{fig:Kq:recerror}
+\includegraphics[height=6cm]{error_function_noise_Kq.eps}
+\caption{Influence of $\sigma$ on the reconstruction error (DPP of marginal kernel $K_q$, mean cardinal $3.11$, reconstruction using \eqref{eq:reconstruction:dpp}). The error bars are the $10^\text{th}$ and $90^\text{th}$ percentiles.} \label{fig:Kq:recerror}
 \end{figure}
 
 
 \begin{table}[ht]
-  \caption{Max reconstruction error (DPP of marginal kernel $K_q$, reconstruction using \eqref{eq:reconstruction:dpp})}
+  \caption{Max reconstruction error (DPP of marginal kernel $K_q$, mean cardinal $3.11$, reconstruction using \eqref{eq:reconstruction:dpp})}
   \label{tab:Kq:maxrecerror}
   \centering
   \begin{tabular}{ll}
@@ -446,6 +447,9 @@ Similarly, there are cases in which the algorithm fails spectacularly, as presen
 \subsection[Signal reconstruction with Kq and unknown Uk]{Signal reconstruction with $K_q$ and unknown $U_k$}
 
 
+\paragraph{Test file} \verb#test_recovery_with_Kq_unknown_Uk.py#
+
+
 For now, we only used \eqref{eq:reconstruction:dpp}, which requires the knowledge of $P = \mathrm{diag} (\pi_{\omega_1}, \cdots, \pi_{\omega_1})$ and $U_k$. Yet in order to compute $P$, one has to compute the marginal kernel associated to the DPP used to sample the nodes and $U_k$. This is exactly what we wanted to avoid in the first place.
 
 
@@ -456,13 +460,48 @@ x_\text{rec} &= \mathrm{argmin}_{z \in \R^N} \norm{P^{-\frac{1}{2}} \left( M z -
 \begin{align} \boxed{x_\text{rec} = (M^\top P^{-1} M + \gamma L^r)^{-1} M^\top P^{-1} y}. \label{eq:reconstruction:dpp:unknown:explicit} \end{align}
 
 
+We chose not to focus on the algorithm that estimates $P$ without computing $K$. We assume here that $P$ is known ; this assumption does not hold for large $N$, since the knowledge of $P$ requires the computation of $K$. 
+
+
 As before, using the direct formula \eqref{eq:reconstruction:dpp:unknown:explicit} implies a $N \times N$ matrix inversion, which might be intractable. One could use optimization algorithms such as gradient descent instead.
 
 
-TODO: regularization and algorithm estimating $P$ not working yet
+We benchmark the reconstruction performance of the algorithm using measurement nodes sampled from $K_q$ and \eqref{eq:reconstruction:dpp:unknown:explicit}. We use parameters $N=100$, $k=2$, $c=16$, $\epsilon = 0.1 \times \epsilon_c$, $\gamma = 10^{-5}$, $r = 4$ and sample 100 graphs and 100 signals on each graph. As in the preceding Subsection, we use an initial parameter $q_\text{init} = 0.2$ and a desired cardinal $m_\text{des}$ and increase $q$ if $m - \sqrt{m} > m_\text{des}$ or decrease $q$ if $m + \sqrt{m} < m_\text{des}$. This leads to a mean cardinal of $m=3.09$ (for $m_\text{des} = 2$). We also run a test increasing the number of measures to a mean of $m=7.94$ (for $m_\text{des} = 10$). We measure the influence of the noise level on the reconstruction results. The results are presented in Figure \ref{fig:Kq:recerror:unknownUk}. Contrary to the preceding Subsections, we do not achieve perfect reconstruction when the noise is null -- in this case the results are similar to those with $\sigma = 10^{-6}$. As expected, the results are not as good as the preceding Subsections, an error of $\sim 10^0$ being close to the error made by sampling a random signal of norm $1$, but the noise level do not seem to influence greatly the reconstruction performance. We explain this as the fact that the regularization cancels the high frequencies, that make it less sensitive to noise. As before, there are cases in which the reconstruction fails as shown in Table \ref{tab:Kq:maxrecerror:unknownUk}. Overall, the reconstruction results are not very consistent as the dispersion of the error is quite large.
+
+
+\begin{figure}[ht]
+\centering
+\textbf{a.} \includegraphics[height=6cm]{error_function_noise_Kq_unknown_Uk_m_3.eps} \\
+\textbf{b.} \includegraphics[height=6cm]{error_function_noise_Kq_unknown_Uk_m_8.eps}
+\caption{Influence of $\sigma$ on the reconstruction error (DPP of marginal kernel $K_q$, mean cardinal \textbf{a.} $3.09$ and \textbf{b.} $7.94$, reconstruction using \eqref{eq:reconstruction:dpp:unknown:explicit}). The error bars are the $10^\text{th}$ and $90^\text{th}$ percentiles.} \label{fig:Kq:recerror:unknownUk}
+\end{figure}
+
+
+\begin{table}[ht]
+  \caption{Max reconstruction error (DPP of marginal kernel $K_q$, mean cardinal $3.09$ and $10.63$, reconstruction using \eqref{eq:reconstruction:dpp:unknown:explicit})}
+  \label{tab:Kq:maxrecerror:unknownUk}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    Noise $\sigma$ &  Max reconstruction error ($m=3.09$) &  Max reconstruction error ($m=7.94$) \\
+    \midrule
+    $10^{-6}$ & $19.19$ & $10.63$\\
+    $10^{-5}$ & $19.19$ & $10.63$\\
+    $10^{-4}$ & $19.18$ & $10.63$\\
+		$10^{-3}$ & $18.90$ & $10.61$\\
+		$10^{-2}$ & $19.09$ & $10.10$\\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 	
-\newpage
+\clearpage
+\section{Conclusion}
+
+
+In this project, we implemented algorithms from \cite{tremblay2017} and showed that indeed, when $U_k$ is known, sampling from a DPP of marginal kernel $K_k$ enables a good signal reconstruction relatively robust to noise. We also showed that $K_q$ is a suitable approximation of $K_k$, and implemented a random walk algorithm that enables to sample from $K_q$ without having to compute explicitely the kernel. Finally, we implemented signal reconstruction without known $U_k$ using a regularized criterion to penalize high frequencies in the reconstructed signal, and showed that noise do not strongly affect the results, that seem relatively inconsistent nonetheless.
+
+
 \bibliography{bibliography} 
 \bibliographystyle{unsrt}
 
