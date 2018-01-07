@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.25)  5 JAN 2018 18:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.25)  7 JAN 2018 12:54
 entering extended mode
 **./project_report.tex
 (project_report.tex
@@ -508,23 +508,23 @@ Package microtype Info: Loading generic protrusion settings for font family
  [2]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 181.
  [3]
-<maze1.png, id=145, 373.395pt x 176.66pt>
+<maze1.png, id=149, 373.395pt x 176.66pt>
 File: maze1.png Graphic file (type png)
  <use maze1.png>
 Package pdftex.def Info: maze1.png used on input line 228.
 (pdftex.def)             Requested size: 180.41835pt x 85.35826pt.
- <maze2.png, id=147, 373.395pt x 176.66pt>
+ <maze2.png, id=151, 373.395pt x 176.66pt>
 File: maze2.png Graphic file (type png)
  <use maze2.png>
 Package pdftex.def Info: maze2.png used on input line 229.
 (pdftex.def)             Requested size: 180.41835pt x 85.35826pt.
 
-<maze3.png, id=148, 373.395pt x 176.66pt>
+<maze3.png, id=152, 373.395pt x 176.66pt>
 File: maze3.png Graphic file (type png)
  <use maze3.png>
 Package pdftex.def Info: maze3.png used on input line 230.
 (pdftex.def)             Requested size: 180.41835pt x 85.35826pt.
- <maze4.png, id=149, 373.395pt x 176.66pt>
+ <maze4.png, id=153, 373.395pt x 176.66pt>
 File: maze4.png Graphic file (type png)
  <use maze4.png>
 Package pdftex.def Info: maze4.png used on input line 231.
@@ -542,40 +542,110 @@ LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.298 \end{verbatim}
-                     <./maze1.png> <./maze2.png> <./maze3.png> <./maze4.png>] (project_report.bbl [6])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 358.
- [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 358.
+l.337 ...1}^{N} \frac{q}{q+\lambda_i}. \end{align}
+                                                   <./maze1.png> <./maze2.png> <./maze3.png> <./maze4.png>]
+Package epstopdf Info: Source file: <error_function_noise_Kk.eps>
+(epstopdf)                    date: 2018-01-07 12:04:28
+(epstopdf)                    size: 216291 bytes
+(epstopdf)             Output file: <error_function_noise_Kk-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-01-07 12:10:36
+(epstopdf)                    size: 18502 bytes
+(epstopdf)             Command: <epstopdf --outfile=error_function_noise_Kk-eps-converted-to.pdf error_function_noise_Kk
+.eps>
+(epstopdf)             \includegraphics on input line 414.
+Package epstopdf Info: Output file is already uptodate.
 
-(project_report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 358.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 358.
+<error_function_noise_Kk-eps-converted-to.pdf, id=222, 433.62pt x 289.08pt>
+File: error_function_noise_Kk-eps-converted-to.pdf Graphic file (type pdf)
+
+<use error_function_noise_Kk-eps-converted-to.pdf>
+Package pdftex.def Info: error_function_noise_Kk-eps-converted-to.pdf used on input line 414.
+(pdftex.def)             Requested size: 341.43124pt x 227.62204pt.
+ [6pdfTeX warning (ext4): destination with the same identifier (name{table.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.450 
+      pdfTeX warning (ext4): destination with the same identifier (name{table.2}) has been already used, duplicate ignor
+ed
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.450 
+      ]
+Package epstopdf Info: Source file: <error_function_noise_Kq.eps>
+(epstopdf)                    date: 2018-01-07 12:35:02
+(epstopdf)                    size: 216270 bytes
+(epstopdf)             Output file: <error_function_noise_Kq-eps-converted-to.pdf>
+(epstopdf)                    date: 2018-01-07 12:42:24
+(epstopdf)                    size: 18477 bytes
+(epstopdf)             Command: <epstopdf --outfile=error_function_noise_Kq-eps-converted-to.pdf error_function_noise_Kq
+.eps>
+(epstopdf)             \includegraphics on input line 463.
+Package epstopdf Info: Output file is already uptodate.
+ <error_function_noise_Kq-eps-converted-to.pdf, id=240, 433.62pt x 289.08pt>
+File: error_function_noise_Kq-eps-converted-to.pdf Graphic file (type pdf)
+
+<use error_function_noise_Kq-eps-converted-to.pdf>
+Package pdftex.def Info: error_function_noise_Kq-eps-converted-to.pdf used on input line 463.
+(pdftex.def)             Requested size: 341.43124pt x 227.62204pt.
+ [7pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
+
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.495 \newpage
+              pdfTeX warning (ext4): destination with the same identifier (name{table.3}) has been already used, duplica
+te ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.495 \newpage
+               <./error_function_noise_Kk-eps-converted-to.pdf>] (project_report.bbl)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 499.
+ [8pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
+
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.499 \end{document}
+                    pdfTeX warning (ext4): destination with the same identifier (name{table.4}) has been already used, d
+uplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.499 \end{document}
+                     <./error_function_noise_Kq-eps-converted-to.pdf>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 499.
+ (project_report.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 499.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 499.
 Package rerunfilecheck Info: File `project_report.out' has not changed.
-(rerunfilecheck)             Checksum: 99F17CDA72BE875B063BDF2CB6626DAF;1173.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 358.
+(rerunfilecheck)             Checksum: 301F1062710B9B9AFA3A3E34966DD9C9;1280.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 499.
  ) 
 Here is how much of TeX's memory you used:
- 9091 strings out of 493333
- 133710 string characters out of 3145222
- 269511 words of memory out of 3000000
- 12250 multiletter control sequences out of 15000+200000
- 43259 words of font info for 141 fonts, out of 3000000 for 9000
+ 9139 strings out of 493333
+ 134548 string characters out of 3145222
+ 271345 words of memory out of 3000000
+ 12267 multiletter control sequences out of 15000+200000
+ 44039 words of font info for 153 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  31i,13n,38p,861b,627s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Quentin\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ectt0900.pk> <C:\Users\Quentin\AppData\
 Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1000.pk>{D:/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<D:/MiKTeX 2.
 9/fonts/type1/public/amsfonts/cm/cmex10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/MiKTeX 2.9/font
-s/type1/public/amsfonts/cm/cmmi5.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><D:/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmr10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><D:/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmr7.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmsy5.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><D:/MiKTeX 2.9/fonts/type1/public/doublestroke/dsrom
-10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/
-msbm7.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><D:/MiKTeX 2.9
-/fonts/type1/urw/times/utmri8a.pfb>
-Output written on project_report.pdf (7 pages, 245752 bytes).
+s/type1/public/amsfonts/cm/cmmi12.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><D:/MiKTeX 2.9/fonts/type1
+/public/amsfonts/cm/cmmi7.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><D:/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmr10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts
+/cm/cmr5.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10
+.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><D:
+/MiKTeX 2.9/fonts/type1/public/doublestroke/dsrom10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb><D
+:/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm7.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><D:/MiKTeX 2.
+9/fonts/type1/urw/times/utmr8a.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on project_report.pdf (8 pages, 320162 bytes).
 PDF statistics:
- 380 PDF objects out of 1000 (max. 8388607)
- 91 named destinations out of 1000 (max. 500000)
- 21645 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 452 PDF objects out of 1000 (max. 8388607)
+ 101 named destinations out of 1000 (max. 500000)
+ 21663 words of extra memory for PDF output out of 24883 (max. 10000000)
 

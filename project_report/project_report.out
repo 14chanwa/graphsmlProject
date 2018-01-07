@@ -11,5 +11,6 @@
 \BOOKMARK [1][-]{section.3}{Results}{}% 11
 \BOOKMARK [2][-]{subsection.3.1}{Sampling from Kk}{section.3}% 12
 \BOOKMARK [2][-]{subsection.3.2}{Sampling from Kq}{section.3}% 13
-\BOOKMARK [2][-]{subsection.3.3}{Signal reconstruction with known Uk}{section.3}% 14
-\BOOKMARK [2][-]{subsection.3.4}{Signal reconstruction with unknown Uk}{section.3}% 15
+\BOOKMARK [2][-]{subsection.3.3}{Signal reconstruction with Kk qnd known Uk}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.4}{Signal reconstruction with Kq and known Uk}{section.3}% 15
+\BOOKMARK [2][-]{subsection.3.5}{Signal reconstruction with Kq and unknown Uk}{section.3}% 16

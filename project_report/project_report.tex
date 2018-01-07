@@ -76,11 +76,11 @@ where $W \in \R^{N \times N}$ is the matrix of the edges of the graph such that 
 
 
 Sampling consists in choosing $m$ nodes among $N$ and measuring the signal on these nodes. If $\mathcal{A} = (\omega_1, \cdots, \omega_m)$ is the subset of the chosen nodes, $M \in R^{m \times N}$ is the measurement matrix such that $M_{i, j} = \delta_{j = \omega_i}$. Then a measurement of the signal $x$ on the sample $\mathcal{A}$ writes
-\begin{align} y &= M x + n \label{eq:measurement}\end{align}
-where $n \in \R^m$ is a measurement noise.
+\begin{align} y &= M x + \mathcal{N} \label{eq:measurement}\end{align}
+where $\mathcal{N} \in \R^m$ is a measurement noise.
 
 
-One can show that if $x$ is a $k$-bandlimited signal, then one can hope to reconstruct $x$ if $m \geq k$. The difficulty of the sampling theory is, given a measurement budget $m$, to find $\mathcal{A}$ such that $\abs{\mathcal{A}} = m$ and we can invert \eqref{eq:measurement} so as to reconstruct exactly $x$ from $y$. A sufficient condition for this to be true if $n = 0$ is that 
+One can show that if $x$ is a $k$-bandlimited signal, then one can hope to reconstruct $x$ if $m \geq k$. The difficulty of the sampling theory is, given a measurement budget $m$, to find $\mathcal{A}$ such that $\abs{\mathcal{A}} = m$ and we can invert \eqref{eq:measurement} so as to reconstruct exactly $x$ from $y$. A sufficient condition for this to be true if $\mathcal{N} \equiv 0$ is that 
 \begin{align} \text{$MU_k$ has its smallest singular value $\sigma_1 > 0$.} \label{eq:sufficientconditionreconstruction}\end{align}
 
 
@@ -277,25 +277,51 @@ In order to make sure we sample the right DPP with marginal kernel $K_k$ with ou
 \end{itemize}
 
 
-We choose two singletons and two pairs, and we compute the empirical probabilities and expectations over the $n=50000$ samples, with $N=100$, $k=2$, $c=16$, $\epsilon = 0.5 \times \epsilon_c$. The results are as follow:
-\begin{verbatim}
-TODO: make a table instead
-------- Singleton:
-Theoretical proba= 0.0189521762207
-Empirical proba= 0.01824
-------- Singleton2:
-Theoretical proba= 0.010781904604
-Empirical proba= 0.01006
-------- Pair:
-Theoretical proba= 0.000152315628169
-Empirical proba= 0.00016
-------- Pair2:
-Theoretical proba= 0.000256030200653
-Empirical proba= 0.0002
-------- Norms:
-mean np.linalg.norm(x)**2= 1.0
-mean np.linalg.norm(Pm12.dot(M).dot(x))**2= 1.00074165703
-\end{verbatim}
+We choose two singletons and two pairs, and we compute the empirical probabilities and expectations over the $n=50000$ samples, with $N=100$, $k=2$, $c=16$, $\epsilon = 0.5 \times \epsilon_c$. The results are presented in Table \ref{tab:Kk:verification}.
+
+
+\begin{table}[th]
+  \caption{Verification of the correctness of the sampling algorithm for $K_k$.}
+  \label{tab:Kk:verification}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    Test &  Theoretical proba & Empirical proba \\
+    \midrule
+    Singleton 1 & $0.01895$ & $0.01824$ \\
+    Singleton 2 & $0.01078$ & $0.01006$ \\
+    Pair 1 & $0.00015$ & $0.00016$ \\
+		Pair 2 & $0.00025$ & $0.00020$ \\
+    \bottomrule
+  \end{tabular}
+	\quad
+	\begin{tabular}{lll}
+    \toprule
+    Test &  $\norm{x}_2^2$ & $\norm{P^{-1/2} M x}_2^2$ \\
+    \midrule
+    Norm & $1.0$ & $1.00074$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+%\begin{verbatim}
+%TODO: make a table instead
+%------- Singleton:
+%Theoretical proba= 0.0189521762207
+%Empirical proba= 0.01824
+%------- Singleton2:
+%Theoretical proba= 0.010781904604
+%Empirical proba= 0.01006
+%------- Pair:
+%Theoretical proba= 0.000152315628169
+%Empirical proba= 0.00016
+%------- Pair2:
+%Theoretical proba= 0.000256030200653
+%Empirical proba= 0.0002
+%------- Norms:
+%mean np.linalg.norm(x)**2= 1.0
+%mean np.linalg.norm(Pm12.dot(M).dot(x))**2= 1.00074165703
+%\end{verbatim}
 
 
 We thus confirm that our algorithm samples the right DPP.
@@ -311,47 +337,162 @@ We proceed the same way with our Algorithm \ref{alg:wilson_algorithm} that sampl
 \begin{align} \mathbb{E}\left( \abs{\mathcal{A}}\right) = \sum_{i=1}^{N} \frac{q}{q+\lambda_i}. \end{align}
 
 
-Since this sampling algorithm is much slower than the preceding one, we chose to test the following parameters: $n=10000$ samples, with $N=100$, $k=2$, $c=16$, $\epsilon = 0.5 \times \epsilon_c$ and $q=1.0$. The results are as follow:
-\begin{verbatim}
-TODO: make a table instead
-------- Cardinal
-Theoretical= 6.95800812053
-Empirical= 6.9687
-------- Singleton:
-Theoretical proba= 0.067520041977
-Empirical proba= 0.0657
-------- Singleton2:
-Theoretical proba= 0.059207968264
-Empirical proba= 0.0559
-------- Pair:
-Theoretical proba= 0.00417738808421
-Empirical proba= 0.0045
-------- Pair2:
-Theoretical proba= 0.0047052228183
-Empirical proba= 0.0049
-------- Norms:
-mean np.linalg.norm(x)**2= 1.0
-mean np.linalg.norm(Pm12.dot(M).dot(x))**2= 1.00289718132
-\end{verbatim}
+Since this sampling algorithm is much slower than the preceding one, we chose to test the following parameters: $n=10000$ samples, with $N=100$, $k=2$, $c=16$, $\epsilon = 0.5 \times \epsilon_c$ and $q=1.0$. The results are presented in Table \ref{tab:Kq:verification}.
+
+\begin{table}[th]
+  \caption{Verification of the correctness of the sampling algorithm for $K_q$.}
+  \label{tab:Kq:verification}
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    Test &  Theoretical proba & Empirical proba \\
+    \midrule
+    Singleton 1 & $0.06752$ & $0.06570$ \\
+    Singleton 2 & $0.05920$ & $0.05590$ \\
+    Pair 1 & $0.00418$ & $0.00450$ \\
+		Pair 2 & $0.00470$ & $0.00490$ \\
+    \bottomrule
+  \end{tabular}
+	\quad
+	\begin{tabular}{lll}
+    \toprule
+    Test &  $\norm{x}_2^2$ & $\norm{P^{-1/2} M x}_2^2$ \\
+    \midrule
+    Norm & $1.0$ & $1.00290$ \\
+    \bottomrule
+  \end{tabular} \\
+	\vspace{0.5cm}
+	\begin{tabular}{lll}
+    \toprule
+    Test &  Theoretical & Empirical \\
+    \midrule
+    Cardinal & 6.95801 & 6.96870 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+		
+%\begin{verbatim}
+%TODO: make a table instead
+%------- Cardinal
+%Theoretical= 6.95800812053
+%Empirical= 6.9687
+%------- Singleton:
+%Theoretical proba= 0.067520041977
+%Empirical proba= 0.0657
+%------- Singleton2:
+%Theoretical proba= 0.059207968264
+%Empirical proba= 0.0559
+%------- Pair:
+%Theoretical proba= 0.00417738808421
+%Empirical proba= 0.0045
+%------- Pair2:
+%Theoretical proba= 0.0047052228183
+%Empirical proba= 0.0049
+%------- Norms:
+%mean np.linalg.norm(x)**2= 1.0
+%mean np.linalg.norm(Pm12.dot(M).dot(x))**2= 1.00289718132
+%\end{verbatim}
 
 We thus confirm that our algorithm samples the right DPP.
 
-\subsection[Signal reconstruction with known Uk]{Signal reconstruction with known $U_k$}
+\subsection[Signal reconstruction with Kk qnd known Uk]{Signal reconstruction with $K_k$ and known $U_k$}
 
 
-TODO: when no noise, perfect reconstruction ; when noise, sometimes it fails spectacularly, most of the time the error norm is small (10, 50, 90 quantiles)
+\paragraph{Test file} \verb#test_recovery_with_Kk.py#
 
 
-\subsection[Signal reconstruction with unknown Uk]{Signal reconstruction with unknown $U_k$}
+In the following we choose $N=100$, $k=2$, $c=16$, $\epsilon = 0.1 \times \epsilon_c$. We use the DPP of marginal kernel $K_k$ to sample $k$ measurement nodes, compute exactly $P$ by using the diagonal of $K_k$ and use the perfect reconstruction formula \eqref{eq:reconstruction:dpp}. The article presents the influence of $\epsilon$ on the reconstruction error ; we chose to compute the influence of the noise standard deviation $\sigma$ of the noise $\mathcal{N}$ on the reconstruction error, where
+\[ y = Mx + \mathcal{N}. \] 
+We generate $100$ graphs using the preceding parameters, and on each graph we generate $100$ $k$-bandlimited signals. On each graph, we sample $k$ measurement nodes and on each signal, we add $\mathcal{N}$ with a given $\sigma$. We then compute the reconstruction error.
 
 
-TODO: when using sampling from $K_q$ and reconstructing the signal with the exact formula \eqref{eq:reconstruction:dpp}, results similar to these of $K_k$ (modulo cardinal of the sample, which we can not control very finely).
+When $\mathcal{N} \equiv 0$, our algorithm reconstructs the signal perfectly, up to the machine precision (the mean error is $\sim 10^{-15}$, the max error is $\sim 10^{-8}$). When we increase $\sigma$, the reconstruction error increases. The results are presented in Figure \ref{fig:Kk:recerror}.
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[height=8cm]{error_function_noise_Kk.eps}
+\caption{Influence of $\sigma$ on the reconstruction error (DPP of marginal kernel $K_k$, reconstruction using \eqref{eq:reconstruction:dpp}). The error bars are the $10^\text{th}$ and $90^\text{th}$ percentiles.} \label{fig:Kk:recerror}
+\end{figure}
+
+
+We note that there are rare cases in which our reconstruction algorithm fails spectacularly. The max reconstruction errors are presented in Table \ref{tab:Kk:maxrecerror}. 
+
+
+\begin{table}[ht]
+  \caption{Max reconstruction error (DPP of marginal kernel $K_k$, reconstruction using \eqref{eq:reconstruction:dpp})}
+  \label{tab:Kk:maxrecerror}
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    Noise $\sigma$ &  Max reconstruction error \\
+    \midrule
+    $10^{-6}$ & $0.16$ \\
+    $10^{-5}$ & $1.46$ \\
+    $10^{-4}$ & $5.88$ \\
+		$10^{-3}$ & $64$ \\
+		$10^{-2}$ & $675$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+%TODO: when no noise, perfect reconstruction ; when noise, sometimes it fails spectacularly, most of the time the error norm is small (10, 50, 90 quantiles)
+
+
+\subsection[Signal reconstruction with Kq and known Uk]{Signal reconstruction with $K_q$ and known $U_k$}
+
+
+\paragraph{Test file} \verb#test_recovery_with_Kq.py#
+
+
+In this section, we still assume $U_k$ is known. The kernel $K_q$ is build so as to be an approximation of $K_k$. This enables us to sample from $K_q$ without having to explicitely compute $K_q$. We thus try to use the sampling algorithm with $K_q$ to choose the measurement nodes and reconstruct the signal using \eqref{eq:reconstruction:dpp} just as in the preceding section. We use the parameters $N=100$, $k=2$, $c=16$, $\epsilon = 0.1 \times \epsilon_c$ and sample 100 graphs and 100 signals on each graph, then add the corresponding noise levels.
+
+
+We can not set a specific cardinal for the samples of our DPP with kernel $K_q$ ; it depends on a parameter $q$. We chose to fix and initial $q_\text{init}=0.2$ and increase $q$ if the sample is of size $m < k$ with the algorithm suggested in the article. In our tests, the mean cardinal of our sample is $3.11$. 
+
+
+The results are presented in Figure \ref{fig:Kq:recerror}. We see that the reconstruction noise is comparable to the algorithm sampling from $K_k$. This means that $K_q$ is effectively a good approximation of $K_k$. We could argue that this comparison might be unfair since the mean cardinal of our sample is $3.11 > k = 2$ ; yet the algorithm $K_k$ can not produce samples of size $\neq k$, whereas in Wilson's algorithm we can set the expected sample size with the parameter $q$, that makes this algorithm more adaptable. 
+
+
+Similarly, there are cases in which the algorithm fails spectacularly, as presented in Table \ref{tab:Kq:maxrecerror}.
+
+
+\begin{figure}[ht]
+\centering
+\includegraphics[height=8cm]{error_function_noise_Kq.eps}
+\caption{Influence of $\sigma$ on the reconstruction error (DPP of marginal kernel $K_q$, reconstruction using \eqref{eq:reconstruction:dpp}). The error bars are the $10^\text{th}$ and $90^\text{th}$ percentiles.} \label{fig:Kq:recerror}
+\end{figure}
+
+
+\begin{table}[ht]
+  \caption{Max reconstruction error (DPP of marginal kernel $K_q$, reconstruction using \eqref{eq:reconstruction:dpp})}
+  \label{tab:Kq:maxrecerror}
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    Noise $\sigma$ &  Max reconstruction error \\
+    \midrule
+    $10^{-6}$ & $0.06$ \\
+    $10^{-5}$ & $1.56$ \\
+    $10^{-4}$ & $12.9$ \\
+		$10^{-3}$ & $187$ \\
+		$10^{-2}$ & $1091$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+
+\subsection[Signal reconstruction with Kq and unknown Uk]{Signal reconstruction with $K_q$ and unknown $U_k$}
+
+
+For now, we only used \eqref{eq:reconstruction:dpp}, which requires the knowledge of $P = \mathrm{diag} (\pi_{\omega_1}, \cdots, \pi_{\omega_1})$ and $U_k$. Yet in order to compute $P$, one has to compute the marginal kernel associated to the DPP used to sample the nodes and $U_k$. This is exactly what we wanted to avoid in the first place.
 
 
 TODO: regularization not working yet
 
 	
-	
+\newpage
 \bibliography{bibliography} 
 \bibliographystyle{plain}
 
