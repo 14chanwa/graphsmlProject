@@ -7,7 +7,7 @@ Created on Tue Dec 26 18:06:48 2017
 
 from graphSamplingWithDPP import generate_graph_from_stochastic_block_model,\
     generate_k_bandlimited_signal, sample_from_DPP,\
-    reweighted_recovery_with_eigendec
+    getmatrix_reweighted_recovery_with_eigendec
 
 import numpy as np
 import scipy as sp
@@ -55,6 +55,9 @@ for j in range(nb_graphs):
 
     # Generate graph
     G = generate_graph_from_stochastic_block_model(N, kgraph, epsilon, c)
+    # Check that the graph is completely connected
+    while nx.number_connected_components(G) > 1:
+        G = generate_graph_from_stochastic_block_model(N, kgraph, epsilon, c)
     
     # Get laplacian and adjacency matrix
     L = sp.sparse.csr_matrix(nx.laplacian_matrix(G), dtype='d')
@@ -70,18 +73,22 @@ for j in range(nb_graphs):
     
     # Theoretical pi using eigendecomposition
     pi = np.diagonal(K_k)
-    
     pi_sample = pi[Y]
+    
+    # Sampling matrix
+    M = sp.sparse.lil_matrix((len(Y), N))
+    M[np.arange(len(Y)), Y] = 1
+    M = M.tocsr()
+    
+    # Get reconstruction matrix (only depends on the graph and the sample)
+    T = getmatrix_reweighted_recovery_with_eigendec(L, pi_sample, M, U_k)
     
     for i in range(nb_signals):
     
         # Generate a k-bandlimited signal
-        x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
-        
-        # Sample the signal
-        M = sp.sparse.lil_matrix((len(Y), N))
-        M[np.arange(len(Y)), Y] = 1
-        M = M.tocsr()
+        # Use optional arguments in order not to recompute the eigendec
+        x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k, \
+                                            Lambda_k = Lambda_k, U_k = U_k)
         
         # Measurement + noise
         y = M.dot(x)
@@ -90,7 +97,7 @@ for j in range(nb_graphs):
             y += np.random.normal(0, nl, size=y.shape)
             
             # Recovery with known U_k
-            xrec = reweighted_recovery_with_eigendec(L, pi_sample, M, y, U_k)
+            xrec = T.dot(y)
             
             if np.linalg.norm(x-xrec) > 1:
                 print('--- anormaly detected, normdiff=', np.linalg.norm(x-xrec))

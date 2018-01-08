@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.25)  8 JAN 2018 00:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (MiKTeX 2.9.6210 64-bit) (preloaded format=pdflatex 2017.2.25)  8 JAN 2018 17:36
 entering extended mode
 **./project_report.tex
 (project_report.tex
@@ -585,11 +585,11 @@ l.314 \subsection
                  [Sampling from Kq]{Sampling from $K_q$} <./maze1-eps-converted-to.pdf> <./maze2-eps-converted-to.pdf> <
 ./maze3-eps-converted-to.pdf> <./maze4-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <error_function_noise_Kk.eps>
-(epstopdf)                    date: 2018-01-07 12:04:28
-(epstopdf)                    size: 216291 bytes
+(epstopdf)                    date: 2018-01-08 17:26:07
+(epstopdf)                    size: 43241 bytes
 (epstopdf)             Output file: <error_function_noise_Kk-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-01-07 12:10:36
-(epstopdf)                    size: 18502 bytes
+(epstopdf)                    date: 2018-01-08 17:26:50
+(epstopdf)                    size: 21640 bytes
 (epstopdf)             Command: <epstopdf --outfile=error_function_noise_Kk-eps-converted-to.pdf error_function_noise_Kk
 .eps>
 (epstopdf)             \includegraphics on input line 377.
@@ -614,11 +614,11 @@ he same identifier (name{table.2}) has been already used, duplicate ignored
 l.412 I
        n this section, we still assume $U_k$ is known. The kernel $K_q$ is b...]
 Package epstopdf Info: Source file: <error_function_noise_Kq.eps>
-(epstopdf)                    date: 2018-01-07 18:46:44
-(epstopdf)                    size: 216270 bytes
+(epstopdf)                    date: 2018-01-08 17:28:12
+(epstopdf)                    size: 45797 bytes
 (epstopdf)             Output file: <error_function_noise_Kq-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-01-07 18:46:49
-(epstopdf)                    size: 18477 bytes
+(epstopdf)                    date: 2018-01-08 17:29:19
+(epstopdf)                    size: 22172 bytes
 (epstopdf)             Command: <epstopdf --outfile=error_function_noise_Kq-eps-converted-to.pdf error_function_noise_Kq
 .eps>
 (epstopdf)             \includegraphics on input line 426.
@@ -644,34 +644,34 @@ licate ignored
 l.461 \end{align*}
                    <./error_function_noise_Kk-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <error_function_noise_Kq_unknown_Uk_m_3.eps>
-(epstopdf)                    date: 2018-01-07 20:10:12
-(epstopdf)                    size: 218110 bytes
+(epstopdf)                    date: 2018-01-08 17:35:05
+(epstopdf)                    size: 42501 bytes
 (epstopdf)             Output file: <error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-01-07 20:27:50
-(epstopdf)                    size: 19683 bytes
+(epstopdf)                    date: 2018-01-08 17:36:49
+(epstopdf)                    size: 25119 bytes
 (epstopdf)             Command: <epstopdf --outfile=error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf error_fu
 nction_noise_Kq_unknown_Uk_m_3.eps>
 (epstopdf)             \includegraphics on input line 476.
 Package epstopdf Info: Output file is already uptodate.
 
-<error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf, id=317, 433.62pt x 289.08pt>
+<error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf, id=325, 433.62pt x 289.08pt>
 File: error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf>
 Package pdftex.def Info: error_function_noise_Kq_unknown_Uk_m_3-eps-converted-to.pdf used on input line 476.
 (pdftex.def)             Requested size: 256.07178pt x 170.71652pt.
 Package epstopdf Info: Source file: <error_function_noise_Kq_unknown_Uk_m_8.eps>
-(epstopdf)                    date: 2018-01-07 20:51:36
-(epstopdf)                    size: 218437 bytes
+(epstopdf)                    date: 2018-01-08 17:34:00
+(epstopdf)                    size: 43771 bytes
 (epstopdf)             Output file: <error_function_noise_Kq_unknown_Uk_m_8-eps-converted-to.pdf>
-(epstopdf)                    date: 2018-01-07 20:55:54
-(epstopdf)                    size: 19740 bytes
+(epstopdf)                    date: 2018-01-08 17:34:10
+(epstopdf)                    size: 26052 bytes
 (epstopdf)             Command: <epstopdf --outfile=error_function_noise_Kq_unknown_Uk_m_8-eps-converted-to.pdf error_fu
 nction_noise_Kq_unknown_Uk_m_8.eps>
 (epstopdf)             \includegraphics on input line 477.
 Package epstopdf Info: Output file is already uptodate.
 
-<error_function_noise_Kq_unknown_Uk_m_8-eps-converted-to.pdf, id=318, 433.62pt x 289.08pt>
+<error_function_noise_Kq_unknown_Uk_m_8-eps-converted-to.pdf, id=326, 433.62pt x 289.08pt>
 File: error_function_noise_Kq_unknown_Uk_m_8-eps-converted-to.pdf Graphic file (type pdf)
 
 <use error_function_noise_Kq_unknown_Uk_m_8-eps-converted-to.pdf>
@@ -716,27 +716,26 @@ Package rerunfilecheck Info: File `project_report.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 510.
  ) 
 Here is how much of TeX's memory you used:
- 9160 strings out of 493333
- 135628 string characters out of 3145222
+ 9157 strings out of 493333
+ 135601 string characters out of 3145222
  271022 words of memory out of 3000000
  12283 multiletter control sequences out of 15000+200000
- 43814 words of font info for 151 fonts, out of 3000000 for 9000
+ 43684 words of font info for 149 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 31i,13n,38p,1682b,627s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 31i,13n,38p,1704b,627s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Quentin\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ectt0900.pk> <C:\Users\Quentin\AppData\
 Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1000.pk>{D:/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<D:/MiKTeX 2.
 9/fonts/type1/public/amsfonts/cm/cmex10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><D:/MiKTeX 2.9/font
-s/type1/public/amsfonts/cm/cmmi12.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><D:/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmmi7.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><D:/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmr10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmr5.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10
-.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><D:
-/MiKTeX 2.9/fonts/type1/public/doublestroke/dsrom10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb><D
-:/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm7.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><D:/MiKTeX 2.
-9/fonts/type1/urw/times/utmr8a.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on project_report.pdf (10 pages, 374544 bytes).
+s/type1/public/amsfonts/cm/cmmi5.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><D:/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmr10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><D:/MiKTeX 2.9/fonts/type1/public/am
+sfonts/cm/cmr7.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmsy5.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><D:/MiKTeX 2.9/fonts/type1/public/doublestroke/dsrom
+10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb><D:/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/
+msbm7.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><D:/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><D:/MiKTeX 2.9
+/fonts/type1/urw/times/utmri8a.pfb>
+Output written on project_report.pdf (10 pages, 351740 bytes).
 PDF statistics:
- 541 PDF objects out of 1000 (max. 8388607)
+ 648 PDF objects out of 1000 (max. 8388607)
  108 named destinations out of 1000 (max. 500000)
  21705 words of extra memory for PDF output out of 24883 (max. 10000000)
 

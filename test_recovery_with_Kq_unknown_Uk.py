@@ -11,7 +11,7 @@ import networkx as nx
 
 from graphSamplingWithDPP import generate_graph_from_stochastic_block_model,\
     generate_k_bandlimited_signal, wilson_algorithm,\
-    regularized_reweighted_recovery
+    getmatrix_regularized_reweighted_recovery
 
 
 # A complete usecase
@@ -54,18 +54,6 @@ noise_sigma = np.array([1e-6, 1e-5, 1e-4, 1e-3, 1e-2])
 ##### END PARAMETERS #####
 
 
-
-# Generate graph
-G = generate_graph_from_stochastic_block_model(N, kgraph, epsilon, c)
-
-# Get laplacian and adjacency matrix
-L = sp.sparse.csr_matrix(nx.laplacian_matrix(G), dtype='d')
-W = sp.sparse.csr_matrix(nx.adjacency_matrix(G), dtype='d')
-
-# Generate a k-bandlimited signal
-x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
-
-
 # Number of different graphs
 nb_graphs = 100
 print('Nb graph trials=', nb_graphs)
@@ -83,7 +71,9 @@ for j in range(nb_graphs):
 
     # Generate graph
     G = generate_graph_from_stochastic_block_model(N, kgraph, epsilon, c)
-    #    print('Number of CCs=', nx.number_connected_components(G))
+    # Check that the graph is completely connected
+    while nx.number_connected_components(G) > 1:
+        G = generate_graph_from_stochastic_block_model(N, kgraph, epsilon, c)
     
     # Get laplacian and adjacency matrix
     L = sp.sparse.csr_matrix(nx.laplacian_matrix(G), dtype='d')
@@ -114,13 +104,22 @@ for j in range(nb_graphs):
     gdiag = np.diag(g)
     Kq = U.dot(gdiag).dot(U.transpose())
     pi = np.diagonal(Kq)
-    
     pi_sample = pi[Y]
+    
+    # Sampling matrix
+    M = sp.sparse.lil_matrix((len(Y), N))
+    M[np.arange(len(Y)), Y] = 1
+    M = M.tocsr()
+    
+    # Get reconstruction matrix (only depends on the graph and the sample)
+    T = getmatrix_regularized_reweighted_recovery(L, pi_sample, M, gamma, r)
     
     for i in range(nb_signals):
     
         # Generate a k-bandlimited signal
-        x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k)
+        # Use optional arguments in order not to recompute the eigendec
+        x, alpha, Lambda_k, U_k = generate_k_bandlimited_signal(L, k, \
+                                            Lambda_k = Lambda_k, U_k = U_k)
         
         # Sample the signal
         M = sp.sparse.lil_matrix((len(Y), N))
@@ -133,9 +132,8 @@ for j in range(nb_graphs):
             nl = noise_sigma[noise_index]
             y += np.random.normal(0, nl, size=y.shape)
             
-            
-            # Recovery with known U_k
-            xrec = regularized_reweighted_recovery(L, pi_sample, M, y, gamma, r)
+            # Recovery with unknown Uk
+            xrec = T.dot(y)
             
             if np.linalg.norm(x-xrec) > 1:
                 print('--- anormaly detected, normdiff=', np.linalg.norm(x-xrec))
@@ -170,7 +168,7 @@ ax.set_xscale('log')
 ax.set_yscale('log')
 ax.set_ylabel('$\|x - x_{rec}\|_2$')
 ax.set_xlabel('Noise $\sigma$')
-title = 'Error in function of the noise using $K_q$ and unknown $U_k$ ($\epsilon=0.1*\epsilon_c$, m=' + str(np.mean(sample_cardinal)) + ')'
+title = 'Error in fct of the noise using $K_q$ and unknown $U_k$ ($\epsilon=0.1*\epsilon_c$, m=' + str(np.mean(sample_cardinal)) + ')'
 ax.set_title(title)
 plt.savefig("project_report\error_function_noise_Kq_unknown_Uk.eps", format="eps")
 plt.show()

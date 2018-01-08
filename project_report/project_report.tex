@@ -379,7 +379,7 @@ When $\mathcal{N} \equiv 0$, our algorithm reconstructs the signal perfectly, up
 \end{figure}
 
 
-We note that there are rare cases in which our reconstruction algorithm fails spectacularly. The max reconstruction errors are presented in Table \ref{tab:Kk:maxrecerror}. 
+We note that there are rare cases in which our reconstruction algorithm fails when the noise in large. The max reconstruction errors are presented in Table \ref{tab:Kk:maxrecerror}. 
 
 
 \begin{table}[ht]
@@ -390,11 +390,11 @@ We note that there are rare cases in which our reconstruction algorithm fails sp
     \toprule
     Noise $\sigma$ &  Max reconstruction error \\
     \midrule
-    $10^{-6}$ & $0.16$ \\
-    $10^{-5}$ & $1.46$ \\
-    $10^{-4}$ & $5.88$ \\
-		$10^{-3}$ & $64$ \\
-		$10^{-2}$ & $675$ \\
+    $10^{-6}$ & $0.0001$ \\
+    $10^{-5}$ & $0.001$ \\
+    $10^{-4}$ & $0.01$ \\
+		$10^{-3}$ & $0.14$ \\
+		$10^{-2}$ & $1.29$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -412,35 +412,35 @@ We note that there are rare cases in which our reconstruction algorithm fails sp
 In this section, we still assume $U_k$ is known. The kernel $K_q$ is build so as to be an approximation of $K_k$. This enables us to sample from $K_q$ without having to explicitely compute $K_q$. We thus use the sampling algorithm with $K_q$ to select the measurement nodes and reconstruct the signal using \eqref{eq:reconstruction:dpp} just as in the preceding Subsection. We use the parameters $N=100$, $k=2$, $c=16$, $\epsilon = 0.1 \times \epsilon_c$ and sample 100 graphs and 100 signals on each graph, then add the corresponding noise levels.
 
 
-We can not set a specific cardinal for the samples of our DPP with kernel $K_q$ ; it depends on a parameter $q$. We chose to fix and initial $q_\text{init}=0.2$ and a desired cardinal $m_\text{des}$ and increase $q$ if $m - \sqrt{m} > m_\text{des}$ or decrease $q$ if $m + \sqrt{m} < m_\text{des}$ with the algorithm suggested in \cite{avena2013}. In our tests, the mean cardinal of our sample is $3.11$ (with $m_\text{des} = 2$). 
+We can not set a specific cardinal for the samples of our DPP with kernel $K_q$ ; it depends on a parameter $q$. We chose to fix and initial $q_\text{init}=0.2$ and a desired cardinal $m_\text{des}$ and increase $q$ if $m - \sqrt{m} > m_\text{des}$ or decrease $q$ if $m + \sqrt{m} < m_\text{des}$ with the algorithm suggested in \cite{avena2013}. In our tests, the mean cardinal of our sample is $2.63$ (with $m_\text{des} = 2$). 
 
 
-The results are presented in Figure \ref{fig:Kq:recerror}. We see that the reconstruction noise is comparable to the algorithm sampling from $K_k$. This means that $K_q$ is effectively a good approximation of $K_k$. We could argue that this comparison might be unfair since the mean cardinal of our sample is $3.11 > k = 2$ ; yet the algorithm $K_k$ can not produce samples of size $\neq k$, whereas in Wilson's algorithm we can set the expected sample size with the parameter $q$, that makes this algorithm more adaptable. 
+The results are presented in Figure \ref{fig:Kq:recerror}. We see that the reconstruction noise is comparable to the algorithm sampling from $K_k$. This means that $K_q$ is effectively a good approximation of $K_k$. We could argue that this comparison might be unfair since the mean cardinal of our sample is $2.63 > k = 2$ ; yet the algorithm $K_k$ can not produce samples of size $\neq k$, whereas in Wilson's algorithm we can set the expected sample size with the parameter $q$, that makes this algorithm more adaptable. 
 
 
-Similarly, there are cases in which the algorithm fails spectacularly, as presented in Table \ref{tab:Kq:maxrecerror}.
+Similarly, there are cases in which the algorithm fails, as presented in Table \ref{tab:Kq:maxrecerror}.
 
 
 \begin{figure}[ht]
 \centering
 \includegraphics[height=6cm]{error_function_noise_Kq.eps}
-\caption{Influence of $\sigma$ on the reconstruction error (DPP of marginal kernel $K_q$, mean cardinal $3.11$, reconstruction using \eqref{eq:reconstruction:dpp}). The error bars are the $10^\text{th}$ and $90^\text{th}$ percentiles.} \label{fig:Kq:recerror}
+\caption{Influence of $\sigma$ on the reconstruction error (DPP of marginal kernel $K_q$, mean cardinal $2.63$, reconstruction using \eqref{eq:reconstruction:dpp}). The error bars are the $10^\text{th}$ and $90^\text{th}$ percentiles.} \label{fig:Kq:recerror}
 \end{figure}
 
 
 \begin{table}[ht]
-  \caption{Max reconstruction error (DPP of marginal kernel $K_q$, mean cardinal $3.11$, reconstruction using \eqref{eq:reconstruction:dpp})}
+  \caption{Max reconstruction error (DPP of marginal kernel $K_q$, mean cardinal $2.63$, reconstruction using \eqref{eq:reconstruction:dpp})}
   \label{tab:Kq:maxrecerror}
   \centering
   \begin{tabular}{ll}
     \toprule
     Noise $\sigma$ &  Max reconstruction error \\
     \midrule
-    $10^{-6}$ & $0.06$ \\
-    $10^{-5}$ & $1.56$ \\
-    $10^{-4}$ & $12.9$ \\
-		$10^{-3}$ & $187$ \\
-		$10^{-2}$ & $1091$ \\
+    $10^{-6}$ & $0.04$ \\
+    $10^{-5}$ & $0.23$ \\
+    $10^{-4}$ & $3.12$ \\
+		$10^{-3}$ & $27$ \\
+		$10^{-2}$ & $325$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -468,30 +468,30 @@ We chose not to focus on the algorithm that estimates $P$ without computing $K$.
 As before, using the direct formula \eqref{eq:reconstruction:dpp:unknown:explicit} implies a $N \times N$ matrix inversion, which might be intractable. One could use optimization algorithms such as gradient descent instead.
 
 
-We benchmark the reconstruction performance of the algorithm using measurement nodes sampled from $K_q$ and \eqref{eq:reconstruction:dpp:unknown:explicit}. We use parameters $N=100$, $k=2$, $c=16$, $\epsilon = 0.1 \times \epsilon_c$, $\gamma = 10^{-5}$, $r = 4$ and sample 100 graphs and 100 signals on each graph. As in the preceding Subsection, we use an initial parameter $q_\text{init} = 0.2$ and a desired cardinal $m_\text{des}$ and increase $q$ if $m - \sqrt{m} > m_\text{des}$ or decrease $q$ if $m + \sqrt{m} < m_\text{des}$. This leads to a mean cardinal of $m=3.09$ (for $m_\text{des} = 2$). We also run a test increasing the number of measures to a mean of $m=7.94$ (for $m_\text{des} = 10$). We measure the influence of the noise level on the reconstruction results. The results are presented in Figure \ref{fig:Kq:recerror:unknownUk}. Contrary to the preceding Subsections, we do not achieve perfect reconstruction when the noise is null -- in this case the results are similar to those with $\sigma = 10^{-6}$. As expected, the results are not as good as the preceding Subsections, an error of $\sim 10^0$ being close to the error made by sampling a random signal of norm $1$, but the noise level do not seem to influence greatly the reconstruction performance. We explain this as the fact that the regularization cancels the high frequencies, that make it less sensitive to noise. As before, there are cases in which the reconstruction fails as shown in Table \ref{tab:Kq:maxrecerror:unknownUk}. Overall, the reconstruction results are not very consistent as the dispersion of the error is quite large.
+We benchmark the reconstruction performance of the algorithm using measurement nodes sampled from $K_q$ and \eqref{eq:reconstruction:dpp:unknown:explicit}. We use parameters $N=100$, $k=2$, $c=16$, $\epsilon = 0.1 \times \epsilon_c$, $\gamma = 10^{-5}$, $r = 4$ and sample 100 graphs and 100 signals on each graph. As in the preceding Subsection, we use an initial parameter $q_\text{init} = 0.2$ and a desired cardinal $m_\text{des}$ and increase $q$ if $m - \sqrt{m} > m_\text{des}$ or decrease $q$ if $m + \sqrt{m} < m_\text{des}$. This leads to a mean cardinal of $m=2.65$ (for $m_\text{des} = 2$). We also run a test increasing the number of measures to a mean of $m=7.92$ (for $m_\text{des} = 10$). We measure the influence of the noise level on the reconstruction results. The results are presented in Figure \ref{fig:Kq:recerror:unknownUk}. Contrary to the preceding Subsections, we do not achieve perfect reconstruction when the noise is null -- in this case the results are similar to those with $\sigma = 10^{-6}$. As expected, the results are not as good as the preceding Subsections, an error of $\sim 10^0$ being close to the error made by sampling a random signal of norm $1$, but the noise level do not seem to influence greatly the reconstruction performance. We explain this as the fact that the regularization cancels the high frequencies, that make it less sensitive to noise. As before, there are cases in which the reconstruction fails for all noise levels, as shown in Table \ref{tab:Kq:maxrecerror:unknownUk}. Overall, the reconstruction results are not very consistent as the dispersion of the error is quite large.
 
 
 \begin{figure}[ht]
 \centering
 \textbf{a.} \includegraphics[height=6cm]{error_function_noise_Kq_unknown_Uk_m_3.eps} \\
 \textbf{b.} \includegraphics[height=6cm]{error_function_noise_Kq_unknown_Uk_m_8.eps}
-\caption{Influence of $\sigma$ on the reconstruction error (DPP of marginal kernel $K_q$, mean cardinal \textbf{a.} $3.09$ and \textbf{b.} $7.94$, reconstruction using \eqref{eq:reconstruction:dpp:unknown:explicit}). The error bars are the $10^\text{th}$ and $90^\text{th}$ percentiles.} \label{fig:Kq:recerror:unknownUk}
+\caption{Influence of $\sigma$ on the reconstruction error (DPP of marginal kernel $K_q$, mean cardinal \textbf{a.} $2.65$ and \textbf{b.} $7.92$, reconstruction using \eqref{eq:reconstruction:dpp:unknown:explicit}). The error bars are the $10^\text{th}$ and $90^\text{th}$ percentiles.} \label{fig:Kq:recerror:unknownUk}
 \end{figure}
 
 
 \begin{table}[ht]
-  \caption{Max reconstruction error (DPP of marginal kernel $K_q$, mean cardinal $3.09$ and $7.94$, reconstruction using \eqref{eq:reconstruction:dpp:unknown:explicit})}
+  \caption{Max reconstruction error (DPP of marginal kernel $K_q$, mean cardinal $2.65$ and $7.94$, reconstruction using \eqref{eq:reconstruction:dpp:unknown:explicit})}
   \label{tab:Kq:maxrecerror:unknownUk}
   \centering
   \begin{tabular}{lll}
     \toprule
-    Noise $\sigma$ &  Max reconstruction error ($m=3.09$) &  Max reconstruction error ($m=7.94$) \\
+    Noise $\sigma$ &  Max reconstruction error ($m=2.65$) &  Max reconstruction error ($m=7.92$) \\
     \midrule
-    $10^{-6}$ & $19.19$ & $10.63$\\
-    $10^{-5}$ & $19.19$ & $10.63$\\
-    $10^{-4}$ & $19.18$ & $10.63$\\
-		$10^{-3}$ & $18.90$ & $10.61$\\
-		$10^{-2}$ & $19.09$ & $10.10$\\
+    $10^{-6}$ & $13.00$ & $4.00$\\
+    $10^{-5}$ & $13.00$ & $4.00$\\
+    $10^{-4}$ & $13.00$ & $4.00$\\
+		$10^{-3}$ & $13.13$ & $4.02$\\
+		$10^{-2}$ & $14.70$ & $4.51$\\
     \bottomrule
   \end{tabular}
 \end{table}

@@ -481,6 +481,47 @@ def generate_maze(n, m=None):
 ###############################################################################
 
 
+def getmatrix_reweighted_recovery_with_eigendec(L, pi, M, Uk):
+    
+    """
+    Gets the (dense) matrix T such that the reconstruction formula 
+    x = Uk (Uk' M' P^-1 M Uk)^-1 Uk' M' P^-1 y
+    writes
+    x = T * y
+    
+    Parameters
+    ----------
+    L: sp.sparse.csr_matrix
+        Laplacian of the graph.
+    pi: np.array (N x 1)
+        Array of marginal probabilities that i belongs to A (where A is the
+        sampled measurement subset).
+    M: sp.sparse.csr_matrix (m x N)
+        Measurement matrix: each row is delta_{omega_j} where omega_j is the
+        index of the sampled node corresponding to the column.
+    Uk: np.array (N, m)
+        Eigenvectors spanning the signal.
+    
+    Returns
+    ----------
+    T: np.array (N x m)
+        Reconstruction matrix
+    
+    """
+    
+    # Since we perform an inverse, we suppose that L and M's sizes are
+    # reasonable and use dense methods for speed
+    Pm1 = np.diag(1/pi)
+    L = L.toarray()
+    M = M.toarray()
+    
+    T = Uk.dot(np.linalg.inv(Uk.transpose().dot(M.transpose()).dot(Pm1)\
+                .dot(M).dot(Uk))).dot(Uk.transpose()).dot(M.transpose())\
+                    .dot(Pm1)
+    
+    return T
+
+
 def reweighted_recovery_with_eigendec(L, pi, M, y, Uk):
     
     """
@@ -499,7 +540,7 @@ def reweighted_recovery_with_eigendec(L, pi, M, y, Uk):
         index of the sampled node corresponding to the column.
     y: np.array (m x 1)
         Array of the measurements of the signal.
-    Uk: sp.sparse.csr_matrix (N, m)
+    Uk: np.array (N, m)
         Eigenvectors spanning the signal.
     
     Returns
@@ -509,23 +550,59 @@ def reweighted_recovery_with_eigendec(L, pi, M, y, Uk):
     
     """
     
-    Pm1 = sp.sparse.diags(1/pi)
-
-    # For consistency, Uk should be in Scipy format
-    Uk = sp.sparse.csr_matrix(Uk)
-    
-    # Let the signal be written as x = Uk * alpha
-    # Then the perfect reconstruction formula writes:
-    # alpha = (Uk' M' P^-1 M Uk)^-1 Uk' M' P^-1 y
-    alpha = sp.sparse.linalg.inv(Uk.transpose().dot(M.transpose()).dot(Pm1)\
-                .dot(M).dot(Uk)).dot(Uk.transpose().dot(M.transpose())\
-                    .dot(Pm1).dot(y))
+    # Direct inversion method
+    T = getmatrix_reweighted_recovery_with_eigendec(L, pi, M, Uk)
+    xrec = T.dot(y)
     
     # OR
     
     # Gradient descent (TO DO)
     
-    return Uk.dot(alpha)
+    return xrec
+
+
+def getmatrix_regularized_reweighted_recovery(L, pi, M, gamma, r):
+    
+    """
+    Gets the (dense) matrix T such that the reconstruction formula 
+    x = (M' P^-1 M + gamma L^r)^-1 M' P^-1 y 
+    writes
+    x = T * y
+    
+    Parameters
+    ----------
+    L: sp.sparse.csr_matrix
+        Laplacian of the graph.
+    pi: np.array (N x 1)
+        Array of marginal probabilities that i belongs to A (where A is the
+        sampled measurement subset).
+    M: sp.sparse.csr_matrix (m x N)
+        Measurement matrix: each row is delta_{omega_j} where omega_j is the
+        index of the sampled node corresponding to the column.
+    gamma: double
+    r: int
+    
+    Returns
+    ----------
+    T: np.array (N x m)
+        Reconstruction matrix
+    
+    """
+    
+    # Since we perform an inverse, we suppose that L and M's sizes are
+    # reasonable and use dense methods for speed
+    Pm1 = np.diag(1/pi)
+    L = L.toarray()
+    M = M.toarray()
+    
+    Lr = L
+    for i in range(r-1):
+        Lr = Lr.dot(L)
+    
+    T = np.linalg.inv((M.transpose()).dot(Pm1).dot(M) + gamma * Lr)\
+                        .dot(M.transpose()).dot(Pm1)
+    
+    return T
 
 
 def regularized_reweighted_recovery(L, pi, M, y, gamma, r):
@@ -556,18 +633,9 @@ def regularized_reweighted_recovery(L, pi, M, y, gamma, r):
     
     """
     
-    Pm1 = sp.sparse.diags(1/pi)
-    
-    # Direct inversion method using the formula
-    # x_rec = (M' P^-1 M + gamma L^r)^-1 M' P^-1 y 
-    Lr = L
-    for i in range(r-1):
-        Lr = Lr.dot(L)
-
-    tmp = ((M.transpose()).dot(Pm1).dot(M)).tocsc() + (gamma * Lr).tocsc()
-    tmp2 = sp.sparse.linalg.inv(tmp)
-    
-    xrec = tmp2.dot(M.transpose()).dot(Pm1).dot(y)
+    # Direct inversion method
+    T = getmatrix_regularized_reweighted_recovery(L, pi, M, gamma, r)
+    xrec = T.dot(y)
     
     ## OR
     
