@@ -36,7 +36,7 @@ epsilonc = (c - np.sqrt(c)) / (c + np.sqrt(c) * (kgraph - 1))    # Critical
 epsilon = 0.1 * epsilonc       # q2/q1
 
 ### Number of measurements
-m = 2 # should be >= k
+m = 10 # should be >= k
 
 ### Initial q
 initial_q = 0.2             # Will be adapted if the size of the sampled DPP
@@ -170,5 +170,5 @@ ax.set_ylabel('$\|x - x_{rec}\|_2$')
 ax.set_xlabel('Noise $\sigma$')
 title = 'Error in fct of the noise using $K_q$ and unknown $U_k$ ($\epsilon=0.1*\epsilon_c$, m=' + str(np.mean(sample_cardinal)) + ')'
 ax.set_title(title)
-plt.savefig("project_report\error_function_noise_Kq_unknown_Uk.eps", format="eps")
+#plt.savefig("project_report\error_function_noise_Kq_unknown_Uk.eps", format="eps")
 plt.show()

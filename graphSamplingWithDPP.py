@@ -595,10 +595,7 @@ def getmatrix_regularized_reweighted_recovery(L, pi, M, gamma, r):
     L = L.toarray()
     M = M.toarray()
     
-    Lr = L
-    for i in range(r-1):
-        Lr = Lr.dot(L)
-    
+    Lr = np.linalg.matrix_power(L, r)
     T = np.linalg.inv((M.transpose()).dot(Pm1).dot(M) + gamma * Lr)\
                         .dot(M.transpose()).dot(Pm1)
     
