@@ -142,14 +142,14 @@ for noise_index in range(len(noise_sigma)):
     nl = noise_sigma[noise_index]
     print('--- Recovery with known Uk ---')
     print('noise_level=', nl)
-    print('10, 50, 90 quantiles difference norm=')
-    percentiles = np.percentile(results_known_Uk[noise_index], [50, 10, 90])
-    print(percentiles)
+    print('10, 90 quantiles difference norm=')
+    percentiles = np.percentile(results_known_Uk[noise_index], [10, 90])
+    print('means difference norm=')
+    error_means[noise_index] = np.mean(results_known_Uk[noise_index])
     print('max difference norm=', np.max(results_known_Uk[noise_index]))
-
-    error_means[noise_index] = percentiles[0]
-    error_bars[0, noise_index] = percentiles[0] - percentiles[1]
-    error_bars[1, noise_index] = percentiles[2] - percentiles[0]
+    
+    error_bars[0, noise_index] = error_means[noise_index] - percentiles[0]
+    error_bars[1, noise_index] = percentiles[1] - error_means[noise_index]
 
 import matplotlib.pyplot as plt 
 fig = plt.figure()
