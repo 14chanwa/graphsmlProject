@@ -1,6 +1,9 @@
 # graphsmlProject
 
-This repository implements some algorithms about Determinantal Point Processes for Graph Sampling, from the paper [Graph sampling with determinantal processes](https://arxiv.org/abs/1703.01594), N. Tremblay et al. (2017).
+This repository implements some algorithms about Determinantal Point Processes for Graph Sampling, from the paper [Graph sampling with determinantal processes](https://arxiv.org/abs/1703.01594), N. Tremblay et al. (2017). The project was conducted in the framework of the course Graphs in Machine Learning of the Master's degree MVA (Mathematics, Computer Vision, Machine Learning) of École Normale Supérieure Paris-Saclay. More details can be found on [the webpage of the course](http://math.ens-paris-saclay.fr/version-francaise/formations/master-mva/contenus-/graphs-in-machine-learning-267194.kjsp).
+
+
+The course is taught by [Michal Valko](http://researchers.lille.inria.fr/~valko/hp/) and this project was supervised by [Guillaume Gautier](https://guilgautier.github.io/).
 
 
 #### Project structure
