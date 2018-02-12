@@ -21,6 +21,11 @@ The Propp-Wilson algorithm is an algorithm that enables sampling a random spanni
 The algorithm is implemented in the function **wilson_algorithm**.
 
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/14chanwa/graphsmlProject/master/wiki_ressources/maze_generation.png" width="500">
+</p>
+
+
 A recreational application of the random spanning tree generation is the automated maze generation: let us interpret the walls of the maze as a covering tree branches, with the borders of the maze being the root of the tree ; then we are assured that the maze is feasible between any two points, and that there is one and only one path that do not involve stepping back that connects these two points. This application is implemented in the function **generate_maze** and a minimal working example and a plotting script are provided in **test_generate_maze.py**.
 
 
@@ -39,16 +44,35 @@ We implemented an algorithm for sampling from the DPP of a given kernel `K` (or 
 Tests for assessing the correctness of our algorithms are presented in files **test_sample_from_Kk.py** and **test_sample_from_Kq.py**.
 
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/14chanwa/graphsmlProject/master/wiki_ressources/sampling_Kk.png" width="500">
+</p>
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/14chanwa/graphsmlProject/master/wiki_ressources/sampling_Kq.png" width="500">
+</p>
+
+
 ### k-bandlimited signal reconstruction with direct formula and exact kernel
 
 
 This pipeline is implemented in **test_sample_from_Kk.py**. We generate a graph using the Stochastic Block Model, then generate a `k`-bandlimited signal on this graph using the first `k` eigenmodes. We then sample a DPP fron `K_k` and use it to measure the signal on the graph. Finally, we use a direct formula (which implies the inversion of a matrix) to compute the reconstructed signal.
 
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/14chanwa/graphsmlProject/master/wiki_ressources/reconstruction_Kk_w_Uk.png" width="500">
+</p>
+
+
 ### k-bandlimited signal reconstruction with direct formula and approximate kernel
 
 
 This pipeline is implemented in **test_sample_from_Kq.py**. We generate a graph using the Stochastic Block Model, then generate a `k`-bandlimited signal on this graph using the first `k` eigenmodes. We then sample a DPP of an adequate size from `K_q` using the Propp-Wilson algorithm and use it to measure the signal on the graph. Finally, we use a direct formula (which implies the inversion of a matrix) to compute the reconstructed signal.
+
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/14chanwa/graphsmlProject/master/wiki_ressources/reconstruction_Kq_w_Uk.png" width="500">
+</p>
 
 
 ### k-bandlimited signal reconstruction with regularized formula and approximate kernel

@@ -106,26 +106,26 @@ for j in range(nb_graphs):
             results_known_Uk[noise_index].append(np.linalg.norm(x-xrec))
 
 #%%
-error_means = np.zeros(len(noise_sigma))
+error_medians = np.zeros(len(noise_sigma))
 error_bars = np.zeros((2, len(noise_sigma)))
 
 for noise_index in range(len(noise_sigma)):
     nl = noise_sigma[noise_index]
     print('--- Recovery with known Uk ---')
     print('noise_level=', nl)
-    print('10, 90 quantiles difference norm=')
-    percentiles = np.percentile(results_known_Uk[noise_index], [10, 90])
-    print('means difference norm=')
-    error_means[noise_index] = np.mean(results_known_Uk[noise_index])
+    print('10, 50, 90 quantiles difference norm=')
+    percentiles = np.percentile(results_known_Uk[noise_index], [50, 10, 90])
+    print(percentiles)
     print('max difference norm=', np.max(results_known_Uk[noise_index]))
     
-    error_bars[0, noise_index] = error_means[noise_index] - percentiles[0]
-    error_bars[1, noise_index] = percentiles[1] - error_means[noise_index]
+    error_medians[noise_index] = percentiles[0]
+    error_bars[0, noise_index] = percentiles[0] - percentiles[1]
+    error_bars[1, noise_index] = percentiles[2] - percentiles[0]
 
 import matplotlib.pyplot as plt 
 fig = plt.figure()
 ax = fig.add_subplot(1,1,1)
-ax.errorbar(noise_sigma, error_means, yerr=error_bars)
+ax.errorbar(noise_sigma, error_medians, yerr=error_bars)
 ax.set_xscale('log')
 ax.set_yscale('log')
 ax.set_ylabel('$\|x - x_{rec}\|_2$')
